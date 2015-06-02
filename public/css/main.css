@@ -1,0 +1,54 @@
+body {
+  overflow: hidden;
+}
+
+.row {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  margin-top: 50px;
+  overflow: hidden;
+}
+
+.fadeInUp {
+  z-index: 10;
+}
+
+.fadeOutDown {
+  z-index: 0;
+}
+
+.first-row {
+  width: 30%;
+  margin: 10% 35%;
+}
+
+.first-row input {
+  width: 75%;
+  display: inline-block;
+}
+
+.first-row button {
+  width: 20%;
+  vertical-align: baseline;
+}
+
+#props-list li {
+  width: 12%;
+}
+
+#props-list li img {
+  width: 100%;
+  vertical-align: baseline;
+  padding: 5px;
+  cursor: pointer;
+}
+
+#props-list li img:hover {
+  opacity: .8;
+}
+
+#record {
+  position: absolute;
+  bottom: 150px;
+}

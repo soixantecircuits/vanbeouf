@@ -5,7 +5,7 @@ var socket = io.connect('http://192.168.1.21:1337');
 var btn = document.querySelector('#send');
 var input = document.querySelector('#yt-url');
 
-var seriously, video, target, chroma, blend, prop, canvas, key;
+var seriously, video, target, chroma, blend, prop, canvas, key, reformat;
 var character = 'JCVD';
 var currentProp, currentID;
 
@@ -19,9 +19,18 @@ var capturer = new CCapture({
 var record = document.querySelector('#record');
 var isRecording = false;
 
+var first = document.querySelector('.first-row');
+var second = document.querySelector('.second-row');
+var third = document.querySelector('.third-row');
+
 btn.onclick = function(){
   if(input.value.length){
     socket.emit('send-URL', input.value);
+    $(first).removeClass('fadeInUp').addClass('fadeOutDown');
+    $(second).removeClass('fadeOutDown').addClass('fadeInUp');
+    setTimeout(function() {
+      input.value = '';
+    }, 1000);
   }
 }
 
@@ -34,10 +43,11 @@ for (var i = 0; i < 11; i++) {
 
   var liImg = document.createElement('img');
   liImg.src = '/props/' + character + '/poster' + index + '.PNG';
-  liImg.width = liImg.height = 50;
   liImg.dataset.index = index;
   liImg.onclick = function (event){
     currentProp = event.target.dataset.index;
+    $(second).removeClass('fadeInUp').addClass('fadeOutDown');
+    $(third).removeClass('fadeOutDown').addClass('fadeInUp');
     initCanvas();
   }
 
@@ -75,18 +85,23 @@ function initCanvas(){
   target = seriously.target('#canvas');
   chroma = seriously.effect('chroma');
   blend = seriously.effect('blend');
+  reformat = seriously.transform('reformat');
 
   chroma.screen[0] = 0.07;
   chroma.screen[1] = 0.42;
   chroma.screen[2] = 0.13;
 
-  chroma.source = key;
+  target.width = window.innerWidth;
+  target.height = window.innerHeight;
+
+  reformat.width = reformat.height = target.width;
+  reformat.mode = 'height';
+  reformat.source = key;
+
+  chroma.source = reformat;
   blend.top = chroma;
   blend.bottom = video;
   target.source = blend;
-
-  target.width = window.innerWidth;
-  target.height = window.innerHeight;
 
   seriously.go();
 }

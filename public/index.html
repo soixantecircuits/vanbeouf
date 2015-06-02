@@ -7,18 +7,16 @@
   <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
-  <div class="container">
-    <div class="row animated fadeInUp" class="first-row">
-      <div class="form-inline">
-        <input id="yt-url" class="form-control" type="url" name="yt" placeholder="video URL">
-        <button id="send" class="btn btn-default">Send</button>
-      </div>
+  <div>
+    <div class="row animated fadeInUp first-row">
+      <input id="yt-url" class="form-control" type="url" name="yt" placeholder="video URL">
+      <button id="send" class="btn btn-default">Send</button>
     </div>
-    <div class="row animated fadeOutDown" class="second-row">
+    <div class="row animated fadeOutDown second-row">
       <ul id="props-list" class="list-inline">
       </ul>
     </div>
-    <div class="row animated fadeOutDown" class="third-row">
+    <div class="row animated fadeOutDown third-row">
       <canvas id="canvas"></canvas>
       <button id="record" class="btn btn-default">Record</button>
     </div>
@@ -27,6 +25,7 @@
   <!-- div below is just holding script tags in order no to polluate the DOM -->
   <div>
     <!-- libs -->
+    <script src="/jquery/dist/jquery.js"></script>
     <script src="/js/vendor/seriously.js"></script>
     <script src="/js/vendor/seriously.blend.js"></script>
     <script src="/js/vendor/seriously.chroma.js"></script>
