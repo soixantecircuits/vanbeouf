@@ -1,6 +1,6 @@
 'use strict';
 
-var socket = io.connect('http://192.168.1.21:1337');
+var socket = io.connect(':'+location.port);
 
 var btn = document.querySelector('#send');
 var input = document.querySelector('#yt-url');

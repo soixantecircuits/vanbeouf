@@ -8,7 +8,10 @@ var fs = require('fs');
 var ytdl = require('ytdl-core');
 var port = 1337;
 
-server.listen(port);
+server.listen(process.env.PORT || port, '0.0.0.0', function() {
+  console.log('App listening at http://%s:%s', server.address().address, server.address().port);
+  console.log("Press Ctrl+C to quit.");
+});
 
 // app.get('/', function (req, res) {
 //   res.sendfile(__dirname + '/index.html');
