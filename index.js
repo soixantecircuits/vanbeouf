@@ -14,6 +14,7 @@ server.listen(port);
 //   res.sendfile(__dirname + '/index.html');
 // });
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/bower_components'));
 
 io.on('connection', function (socket) {
   socket.on('send-URL', function (url) {

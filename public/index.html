@@ -2,16 +2,37 @@
 <html>
 <head>
   <title>Vandammizer</title>
+  <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
-  <input type="text" name="yt" placeholder="Your video URL" id="yt-url">
-  <button id="send">Send</button>
+  <div class="container">
+    <div class="row">
+      <div class="form-inline">
+        <input id="yt-url" class="form-control" type="url" name="yt" placeholder="video URL">
+        <button id="send" class="btn btn-default">Send</button>
+      </div>
+    </div>
+    <div class="row">
+      <ul id="props-list" class="list-inline">
+      </ul>
+    </div>
+    <div class="row">
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
 
-  <!-- libs -->
-  <script src="/js/vendor/seriously.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
+  <!-- div below is just holding script tags in order no to polluate the DOM -->
+  <div>
+    <!-- libs -->
+    <script src="/js/vendor/seriously.js"></script>
+    <script src="/js/vendor/seriously.blend.js"></script>
+    <script src="/js/vendor/seriously.chroma.js"></script>
+    <script src="/js/vendor/CCapture.min.js"></script>
+    <script src="/js/vendor/gif.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
-  <!-- home -->
-  <script src="main.js"></script>
+    <!-- home -->
+    <script src="js/main.js"></script>
+  </div>
 </body>
 </html>
