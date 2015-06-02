@@ -15,7 +15,7 @@ You'll need to fill `props` with videos. `backgrounds` will fill itself with you
 ## Usage
 
 ```
-$ node index.js
+$ npm start
 ```
 
 Then go [here](http://localhost:1337).
