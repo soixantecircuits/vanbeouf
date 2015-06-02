@@ -2,22 +2,25 @@
 <html>
 <head>
   <title>Vandammizer</title>
-  <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/css/vendor/animate.css">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
   <div class="container">
-    <div class="row">
+    <div class="row animated fadeInUp" class="first-row">
       <div class="form-inline">
         <input id="yt-url" class="form-control" type="url" name="yt" placeholder="video URL">
         <button id="send" class="btn btn-default">Send</button>
       </div>
     </div>
-    <div class="row">
+    <div class="row animated fadeOutDown" class="second-row">
       <ul id="props-list" class="list-inline">
       </ul>
     </div>
-    <div class="row">
+    <div class="row animated fadeOutDown" class="third-row">
       <canvas id="canvas"></canvas>
+      <button id="record" class="btn btn-default">Record</button>
     </div>
   </div>
 
@@ -27,7 +30,7 @@
     <script src="/js/vendor/seriously.js"></script>
     <script src="/js/vendor/seriously.blend.js"></script>
     <script src="/js/vendor/seriously.chroma.js"></script>
-    <script src="/js/vendor/CCapture.min.js"></script>
+    <script src="/js/vendor/CCapture.js"></script>
     <script src="/js/vendor/gif.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 

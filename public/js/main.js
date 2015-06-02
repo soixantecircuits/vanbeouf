@@ -9,6 +9,16 @@ var seriously, video, target, chroma, blend, prop, canvas, key;
 var character = 'JCVD';
 var currentProp, currentID;
 
+var capturer = new CCapture({
+  format: 'gif',
+  workersPath: 'js/vendor/',
+  framerate: 30,
+  quality: 50,
+  verbose: true
+});
+var record = document.querySelector('#record');
+var isRecording = false;
+
 btn.onclick = function(){
   if(input.value.length){
     socket.emit('send-URL', input.value);
@@ -18,12 +28,12 @@ btn.onclick = function(){
 var list = document.querySelector('#props-list');
 list.style.display = 'none';
 
-for (var i = 0; i < 3; i++) {
+for (var i = 0; i < 11; i++) {
   var li = document.createElement('li');
   var index = i + 1;
 
   var liImg = document.createElement('img');
-  liImg.src = '/props/' + character + '/poster0' + index + '.png';
+  liImg.src = '/props/' + character + '/poster' + index + '.PNG';
   liImg.width = liImg.height = 50;
   liImg.dataset.index = index;
   liImg.onclick = function (event){
@@ -50,7 +60,7 @@ function initCanvas(){
   document.body.appendChild(videoElement);
 
   var propsElement = document.createElement('video');
-  propsElement.src = '/props/' + character + '/0' + currentProp + '.ogg';
+  propsElement.src = '/props/' + character + '/' + currentProp + '.mp4';
   propsElement.id = "props";
   propsElement.controls = true;
   propsElement.autoplay = true;
@@ -79,4 +89,19 @@ function initCanvas(){
   target.height = window.innerHeight;
 
   seriously.go();
+}
+
+record.onclick = function(){
+  if(isRecording){
+    capturer.stop();
+    capturer.save(function (blob){
+      // window.location = blob;
+    });
+    record.textContent = 'Record';
+  } else {
+    capturer.start();
+    capturer.capture(document.querySelector('#canvas'));
+    record.textContent = 'Stop';
+  }
+  isRecording = !isRecording;
 }
