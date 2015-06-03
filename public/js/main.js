@@ -39,6 +39,16 @@ function cleanEmptyArray(array){
   return array;
 }
 
+function initPreload(){
+  for(var i = 1; i < 12; i++){
+      var imgObjJCVD = new Image();
+      imgObjJCVD.src = '/props/JCVD/poster' + i + '.PNG';
+      var imgObjSLB = new Image();
+      imgObjSLB.src = '/props/SLB/poster' + i + '.PNG';
+  }
+}
+initPreload();
+
 if(currentState === 1) {
   $(second).hide();
   $(form).hide();
