@@ -80,7 +80,8 @@ function generateProps(){
     liImg.dataset.index = index;
     liImg.onclick = function (event){
       currentProp = event.target.dataset.index;
-      history.pushState(currentProp, '', history.state + '/' + currentProp);
+      var newState = history.state ? history.state + '/' + currentProp : '/' + currentProp
+      history.pushState(currentProp, '', newState);
       $(first).removeClass('fadeInUp').addClass('fadeOutDown');
       $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
     }
