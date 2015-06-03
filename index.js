@@ -15,8 +15,10 @@ app.use(express.static(__dirname + '/bower_components'));
 var routes = [
   '/',
   '/JCVD',
+  '/JCVD/*',
   '/JCVD/*/',
   '/SLB',
+  '/SLB/*',
   '/SLB/*/',
 ];
 

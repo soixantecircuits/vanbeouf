@@ -67,6 +67,11 @@ body {
   vertical-align: baseline;
 }
 
+.third-row {
+  margin: 0;
+  padding: 0;
+}
+
 #record {
   position: absolute;
   bottom: 150px;

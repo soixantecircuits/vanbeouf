@@ -8,7 +8,7 @@ var input = document.querySelector('#yt-url');
 var states = (location.pathname.length > 1) ? location.pathname.split('/') : [];
 var currentState = states.length - 1;
 
-var seriously, video, target, chroma, blend, prop, canvas, key, reformat;
+var seriously, video, target, chroma, blend, prop, canvas, key, formatKey, formatVideo;
 var character = '' || states[1];
 var currentProp = '' || states[2];
 var currentID = '' || states[3];
@@ -123,7 +123,8 @@ function initCanvas(){
   target = seriously.target('#canvas');
   chroma = seriously.effect('chroma');
   blend = seriously.effect('blend');
-  reformat = seriously.transform('reformat');
+  formatKey = seriously.transform('reformat');
+  formatVideo = seriously.transform('reformat');
 
   if(character === 'JCVD'){
     chroma.screen[0] = 0.07;
@@ -138,13 +139,17 @@ function initCanvas(){
   target.width = window.innerWidth;
   target.height = window.innerHeight;
 
-  reformat.width = reformat.height = target.width;
-  reformat.mode = 'width';
-  reformat.source = key;
-
-  chroma.source = reformat;
+  formatKey.width = formatKey.height = target.original.width;
+  formatKey.mode = 'width';
+  formatKey.source = key;
+  chroma.source = formatKey;
   blend.top = chroma;
-  blend.bottom = video;
+
+  formatVideo.width = formatVideo.height = target.original.width;
+  formatVideo.mode = 'width';
+  formatVideo.source = video;
+  blend.bottom = formatVideo;
+
   target.source = blend;
 
   seriously.go(function(){
