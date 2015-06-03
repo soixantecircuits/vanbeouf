@@ -6,12 +6,13 @@ var send = document.querySelector('#send');
 var input = document.querySelector('#yt-url');
 
 var states = (location.pathname.length > 1) ? location.pathname.split('/') : [];
-var currentState = states.length - 1;
+states = cleanEmptyArray(states);
+var currentState = states.length;
 
 var seriously, video, target, chroma, blend, prop, canvas, key, formatKey, formatVideo;
-var character = '' || states[1];
-var currentProp = '' || states[2];
-var currentID = '' || states[3];
+var character = '' || states[0];
+var currentProp = '' || states[1];
+var currentID = '' || states[2];
 
 // var capturer = new CCapture({
 //   format: 'gif',
@@ -27,6 +28,16 @@ var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
 var third = document.querySelector('.third-row');
 var list = document.querySelector('#props-list');
+
+function cleanEmptyArray(array){
+  for (var i = 0; i < array.length; i++) {
+    if(array[i] == ''){
+      array.splice(i, 1);
+      i--;
+    }
+  }
+  return array;
+}
 
 if(currentState === 1) {
   $(second).hide();
