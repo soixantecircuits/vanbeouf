@@ -1,9 +1,15 @@
 {
-  "name": "vandammizer",
+  "name": "vanboeuf",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/soixantecircuits/vanbeouf",
+  },
   "scripts": {
+    "setup": "npm i && bower install && mkdir public/backgrounds public/props",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "hugohil",

@@ -5,9 +5,7 @@ Ultimate internet.
 ## Installation
 
 ```
-$ npm i
-$ bower install
-$ mkdir public/backgrounds public/props
+$ npm setup
 ```
 
 You'll need to fill `props` with videos. `backgrounds` will fill itself with youtube downloads.
