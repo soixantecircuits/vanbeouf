@@ -26,8 +26,8 @@ var currentID = '' || states[2];
 
 var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
-var third = document.querySelector('.third-row');
 var list = document.querySelector('#props-list');
+var form = document.querySelector('.form');
 
 function cleanEmptyArray(array){
   for (var i = 0; i < array.length; i++) {
@@ -41,26 +41,35 @@ function cleanEmptyArray(array){
 
 if(currentState === 1) {
   $(second).hide();
-  $(third).hide();
+  $(form).hide();
   $(first).addClass('fadeInUp');
-
+  $('.pick').hide();
+  $('.character').addClass('active smaller');
   generateProps();
 } else if(currentState === 2){
-  $(first).hide();
-  $(third).hide();
-  $(second).addClass('fadeInUp');
+  $(second).hide();
+  $(first).addClass('fadeInUp');
+  $('.pick').hide();
+  $('.character').addClass('active smaller');
+  generateProps();
 } else if(currentState === 3){
   $(first).hide();
-  $(second).hide();
-  $(third).addClass('fadeInUp');
+  $(second).addClass('fadeInUp');
   initCanvas();
 } else {
-  $(first).addClass('fadeInUp');
+  $(first).addClass('fadeIn');
   $(second).hide();
-  $(third).hide();
+  $(form).hide();
+  setTimeout(function() {
+    $('.separator').addClass('active');
+    $('.character').addClass('active');
+  }, 500);
 
   $('.img-character').each(function(){
     $(this).one('click', function (event){
+      $('.separator').removeClass('active');
+      $('.character').addClass('smaller');
+      $('.pick').addClass('animated fadeOutUp');
       character = event.target.dataset.character;
       history.pushState(character, '', character);
       generateProps();
@@ -80,10 +89,8 @@ function generateProps(){
     liImg.dataset.index = index;
     liImg.onclick = function (event){
       currentProp = event.target.dataset.index;
-      var newState = history.state ? history.state + '/' + currentProp : '/' + currentProp
-      history.pushState(currentProp, '', newState);
-      $(first).removeClass('fadeInUp').addClass('fadeOutDown');
-      $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
+      history.pushState(currentProp, '', character + '/' + currentProp);
+      $(form).show().addClass('animated fadeInUp');
     }
 
     li.appendChild(liImg);
@@ -113,7 +120,7 @@ send.onclick = function(){
   var loaderElem = document.createElement('div');
   loaderElem.className = 'load animated';
   loaderElem.textContent = 'Loading...';
-  document.querySelector('.second-row').appendChild(loaderElem);
+  document.querySelector('.first-row').appendChild(loaderElem);
   $(loaderElem).show().addClass('fadeIn');
 }
 
@@ -123,7 +130,7 @@ socket.on('video-too-long', function(){
   errorElem.className = 'error animated';
   errorElem.textContent = 'Oops... Your video is too long! Please take a shorter one.';
   errorElem.style.display = 'none';
-  document.querySelector('.second-row').appendChild(errorElem);
+  document.querySelector('.first-row').appendChild(errorElem);
   $(errorElem).show().addClass('fadeIn');
   setTimeout(function() {
     removeGracefully(errorElem, 'fadeIn', 'fadeOut');
@@ -142,8 +149,8 @@ socket.on('download-ended', function (id){
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);
   initCanvas();
-  $(second).removeClass('fadeInUp').addClass('fadeOutDown');
-  $(third).show().removeClass('fadeOutDown').addClass('fadeInUp');
+  $(first).removeClass('fadeInUp').addClass('fadeOutDown');
+  $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
 });
 
 function initCanvas(){
