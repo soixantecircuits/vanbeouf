@@ -203,6 +203,10 @@ function initCanvas(){
   seriously.go(function(){
     key.update();
   });
+
+  document.querySelector('.rrssb-email > a').href="mailto:?subject=VanBeouf&body= " + location.href;
+  document.querySelector('.rrssb-facebook > a').href="https://www.facebook.com/sharer/sharer.php?u=" + location.href;
+  document.querySelector('.rrssb-twitter > a').href="http://twitter.com/home?status=" + location.href;
 }
 
 // record.onclick = function(){

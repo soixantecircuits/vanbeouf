@@ -82,6 +82,14 @@ body {
 .third-row {
   margin: 0;
   padding: 0;
+  height: 100vh;
+}
+
+.social {
+  position: absolute;
+  right: 1%;
+  bottom: 30px;
+  width: 33%;
 }
 
 #record {
