@@ -83,6 +83,17 @@ function generateProps(){
 send.onclick = function(){
   if(!input.value.length){
     return;
+  } else if(!input.value.match(/(http(s|):\/\/www\.youtube\.com\/watch\?v=)/gi)){
+    var errorElem = document.createElement('div');
+    errorElem.className = 'error animated';
+    errorElem.textContent = 'Oops... It\'s seems like your video is not hosted on YouTube!';
+    errorElem.style.display = 'none';
+    document.querySelector('.second-row').appendChild(errorElem);
+    $(errorElem).show().addClass('fadeIn');
+    setTimeout(function() {
+      removeGracefully(errorElem, 'fadeIn', 'fadeOut');
+    }, 5000);
+    return;
   }
   socket.emit('send-URL', input.value);
   input.value = '';

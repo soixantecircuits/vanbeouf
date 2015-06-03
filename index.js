@@ -42,7 +42,7 @@ io.on('connection', function (socket) {
         socket.emit('video-too-long');
         return false;
       } else {
-        var id = url.replace(/http(s|):\/\/www\.youtube\.com\/watch\?v=/gi, '');
+        var id = url.replace(/(http(s|):\/\/www\.youtube\.com\/watch\?v=)/gi, '');
         fs.readdir(__dirname + '/public/backgrounds/', function (err, files){
           if(err){
             console.error(err);
