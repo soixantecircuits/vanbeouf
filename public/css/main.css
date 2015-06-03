@@ -9,6 +9,7 @@ body {
   margin-top: 50px;
   overflow: hidden;
   width: 100%;
+  background-color: #FFF;
 }
 
 .fadeInUp {
@@ -67,6 +68,17 @@ body {
   vertical-align: baseline;
 }
 
+.error {
+  color: #ffcc32;
+  font-size: 18px;
+}
+
+.load {
+  opacity: 1;
+  animation: blink 2s infinite;
+  transition: opacity .2s ease;
+}
+
 .third-row {
   margin: 0;
   padding: 0;
@@ -75,4 +87,16 @@ body {
 #record {
   position: absolute;
   bottom: 150px;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

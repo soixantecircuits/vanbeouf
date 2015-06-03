@@ -57,7 +57,6 @@ if(currentState === 1) {
   });
 }
 
-
 function generateProps(){
   var other = character === 'JCVD' ? 'slb' : 'jcvd';
   $('#' + other).addClass('fadeOutLeft').width(0);
@@ -82,15 +81,41 @@ function generateProps(){
 }
 
 send.onclick = function(){
-  if(input.value.length){
-    socket.emit('send-URL', input.value);
-    setTimeout(function() {
-      input.value = '';
-    }, 1000);
+  if(!input.value.length){
+    return;
   }
+  socket.emit('send-URL', input.value);
+  input.value = '';
+
+  var loaderElem = document.createElement('div');
+  loaderElem.className = 'load animated';
+  loaderElem.textContent = 'Loading...';
+  document.querySelector('.second-row').appendChild(loaderElem);
+  $(loaderElem).show().addClass('fadeIn');
+}
+
+socket.on('video-too-long', function(){
+  removeGracefully('.load', 'fadeIn', 'fadeOut');
+  var errorElem = document.createElement('div');
+  errorElem.className = 'error animated';
+  errorElem.textContent = 'Oops... Your video is too long! Please take a shorter one.';
+  errorElem.style.display = 'none';
+  document.querySelector('.second-row').appendChild(errorElem);
+  $(errorElem).show().addClass('fadeIn');
+  setTimeout(function() {
+    removeGracefully(errorElem, 'fadeIn', 'fadeOut');
+  }, 5000);
+});
+
+function removeGracefully(elem, effectToRemove, effectToAdd){
+  $(elem).removeClass(effectToRemove).addClass(effectToAdd);
+  setTimeout(function() {
+    $(elem).remove();
+  }, 1000);
 }
 
 socket.on('download-ended', function (id){
+  removeGracefully('.load', 'fadeIn', 'fadeOut');
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);
   initCanvas();
