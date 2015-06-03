@@ -5,9 +5,13 @@ var socket = io.connect('http://192.168.1.21:1337');
 var send = document.querySelector('#send');
 var input = document.querySelector('#yt-url');
 
+var states = (location.pathname.length > 1) ? location.pathname.split('/') : [];
+var currentState = states.length - 1;
+
 var seriously, video, target, chroma, blend, prop, canvas, key, reformat;
-var character = 'JCVD';
-var currentProp, currentID;
+var character = '' || states[1];
+var currentProp = '' || states[2];
+var currentID = '' || states[3];
 
 // var capturer = new CCapture({
 //   format: 'gif',
@@ -23,33 +27,59 @@ var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
 var third = document.querySelector('.third-row');
 var list = document.querySelector('#props-list');
-$(second).hide();
-$(third).hide();
 
-$('.img-character').each(function(){
-  $(this).one('click', function (event){
-    character = event.target.dataset.character;
-    var other = character === 'JCVD' ? 'slb' : 'jcvd';
-    $('#' + other).addClass('fadeOutLeft').width(0);
-    for (var i = 0; i < 11; i++) {
-      var li = document.createElement('li');
-      var index = i + 1;
+if(currentState === 1) {
+  $(second).hide();
+  $(third).hide();
+  $(first).addClass('fadeInUp');
 
-      var liImg = document.createElement('img');
-      liImg.src = '/props/' + character + '/poster' + index + '.PNG';
-      liImg.dataset.index = index;
-      liImg.onclick = function (event){
-        currentProp = event.target.dataset.index;
-        $(first).removeClass('fadeInUp').addClass('fadeOutDown');
-        $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
-      }
+  generateProps();
+} else if(currentState === 2){
+  $(first).hide();
+  $(third).hide();
+  $(second).addClass('fadeInUp');
+} else if(currentState === 3){
+  $(first).hide();
+  $(second).hide();
+  $(third).addClass('fadeInUp');
+  initCanvas();
+} else {
+  $(first).addClass('fadeInUp');
+  $(second).hide();
+  $(third).hide();
 
-      li.appendChild(liImg);
-      list.appendChild(li);
-    }
-    $(list).removeClass('fadeOutDown').addClass('fadeInUp');
+  $('.img-character').each(function(){
+    $(this).one('click', function (event){
+      character = event.target.dataset.character;
+      history.pushState(character, '', character);
+      generateProps();
+    });
   });
-})
+}
+
+
+function generateProps(){
+  var other = character === 'JCVD' ? 'slb' : 'jcvd';
+  $('#' + other).addClass('fadeOutLeft').width(0);
+  for (var i = 0; i < 11; i++) {
+    var li = document.createElement('li');
+    var index = i + 1;
+
+    var liImg = document.createElement('img');
+    liImg.src = '/props/' + character + '/poster' + index + '.PNG';
+    liImg.dataset.index = index;
+    liImg.onclick = function (event){
+      currentProp = event.target.dataset.index;
+      history.pushState(currentProp, '', history.state + '/' + currentProp);
+      $(first).removeClass('fadeInUp').addClass('fadeOutDown');
+      $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
+    }
+
+    li.appendChild(liImg);
+    list.appendChild(li);
+  }
+  $(list).removeClass('fadeOutDown').addClass('fadeInUp');
+}
 
 send.onclick = function(){
   if(input.value.length){
@@ -62,6 +92,7 @@ send.onclick = function(){
 
 socket.on('download-ended', function (id){
   currentID = id;
+  history.pushState(id, '', history.state + '/' + id);
   initCanvas();
   $(second).removeClass('fadeInUp').addClass('fadeOutDown');
   $(third).show().removeClass('fadeOutDown').addClass('fadeInUp');
@@ -69,7 +100,7 @@ socket.on('download-ended', function (id){
 
 function initCanvas(){
   var videoElement = document.createElement('video');
-  videoElement.src = 'backgrounds/' + currentID + '.flv';
+  videoElement.src = '/backgrounds/' + currentID + '.flv';
   videoElement.id = "video"
   videoElement.controls = true;
   videoElement.autoplay = true;
