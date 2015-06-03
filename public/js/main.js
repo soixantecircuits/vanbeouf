@@ -2,62 +2,69 @@
 
 var socket = io.connect('http://192.168.1.21:1337');
 
-var btn = document.querySelector('#send');
+var send = document.querySelector('#send');
 var input = document.querySelector('#yt-url');
 
 var seriously, video, target, chroma, blend, prop, canvas, key, reformat;
 var character = 'JCVD';
 var currentProp, currentID;
 
-var capturer = new CCapture({
-  format: 'gif',
-  workersPath: 'js/vendor/',
-  framerate: 30,
-  quality: 50,
-  verbose: true
-});
-var record = document.querySelector('#record');
-var isRecording = false;
+// var capturer = new CCapture({
+//   format: 'gif',
+//   workersPath: 'js/vendor/',
+//   framerate: 30,
+//   quality: 100,
+//   verbose: true
+// });
+// var record = document.querySelector('#record');
+// var isRecording = false;
 
 var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
 var third = document.querySelector('.third-row');
+var list = document.querySelector('#props-list');
+$(second).hide();
+$(third).hide();
 
-btn.onclick = function(){
+$('.img-character').each(function(){
+  $(this).one('click', function (event){
+    character = event.target.dataset.character;
+    var other = character === 'JCVD' ? 'slb' : 'jcvd';
+    $('#' + other).addClass('fadeOutLeft').width(0);
+    for (var i = 0; i < 11; i++) {
+      var li = document.createElement('li');
+      var index = i + 1;
+
+      var liImg = document.createElement('img');
+      liImg.src = '/props/' + character + '/poster' + index + '.PNG';
+      liImg.dataset.index = index;
+      liImg.onclick = function (event){
+        currentProp = event.target.dataset.index;
+        $(first).removeClass('fadeInUp').addClass('fadeOutDown');
+        $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
+      }
+
+      li.appendChild(liImg);
+      list.appendChild(li);
+    }
+    $(list).removeClass('fadeOutDown').addClass('fadeInUp');
+  });
+})
+
+send.onclick = function(){
   if(input.value.length){
     socket.emit('send-URL', input.value);
-    $(first).removeClass('fadeInUp').addClass('fadeOutDown');
-    $(second).removeClass('fadeOutDown').addClass('fadeInUp');
     setTimeout(function() {
       input.value = '';
     }, 1000);
   }
 }
 
-var list = document.querySelector('#props-list');
-list.style.display = 'none';
-
-for (var i = 0; i < 11; i++) {
-  var li = document.createElement('li');
-  var index = i + 1;
-
-  var liImg = document.createElement('img');
-  liImg.src = '/props/' + character + '/poster' + index + '.PNG';
-  liImg.dataset.index = index;
-  liImg.onclick = function (event){
-    currentProp = event.target.dataset.index;
-    $(second).removeClass('fadeInUp').addClass('fadeOutDown');
-    $(third).removeClass('fadeOutDown').addClass('fadeInUp');
-    initCanvas();
-  }
-
-  li.appendChild(liImg);
-  list.appendChild(li);
-}
-
 socket.on('download-ended', function (id){
   currentID = id;
-  list.style.display = 'block';
+  initCanvas();
+  $(second).removeClass('fadeInUp').addClass('fadeOutDown');
+  $(third).show().removeClass('fadeOutDown').addClass('fadeInUp');
 });
 
 function initCanvas(){
@@ -87,15 +94,21 @@ function initCanvas(){
   blend = seriously.effect('blend');
   reformat = seriously.transform('reformat');
 
-  chroma.screen[0] = 0.07;
-  chroma.screen[1] = 0.42;
-  chroma.screen[2] = 0.13;
+  if(character === 'JCVD'){
+    chroma.screen[0] = 0.07;
+    chroma.screen[1] = 0.42;
+    chroma.screen[2] = 0.13;
+  } else {
+    chroma.screen[0] = 0.21;
+    chroma.screen[1] = 0.41;
+    chroma.screen[2] = 0.27;
+  }
 
   target.width = window.innerWidth;
   target.height = window.innerHeight;
 
   reformat.width = reformat.height = target.width;
-  reformat.mode = 'height';
+  reformat.mode = 'width';
   reformat.source = key;
 
   chroma.source = reformat;
@@ -103,20 +116,22 @@ function initCanvas(){
   blend.bottom = video;
   target.source = blend;
 
-  seriously.go();
+  seriously.go(function(){
+    key.update();
+  });
 }
 
-record.onclick = function(){
-  if(isRecording){
-    capturer.stop();
-    capturer.save(function (blob){
-      // window.location = blob;
-    });
-    record.textContent = 'Record';
-  } else {
-    capturer.start();
-    capturer.capture(document.querySelector('#canvas'));
-    record.textContent = 'Stop';
-  }
-  isRecording = !isRecording;
-}
+// record.onclick = function(){
+//   if(isRecording){
+//     capturer.stop();
+//     capturer.save(function (blob){
+//       window.location = blob;
+//     });
+//     record.textContent = 'Record';
+//   } else {
+//     capturer.start();
+//     capturer.capture(document.querySelector('#canvas'));
+//     record.textContent = 'Stop';
+//   }
+//   isRecording = !isRecording;
+// }

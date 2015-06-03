@@ -8,6 +8,7 @@ body {
   text-align: center;
   margin-top: 50px;
   overflow: hidden;
+  width: 100%;
 }
 
 .fadeInUp {
@@ -19,18 +20,21 @@ body {
 }
 
 .first-row {
+  text-align: center;
+}
+
+.character {
   width: 30%;
-  margin: 10% 35%;
-}
-
-.first-row input {
-  width: 75%;
   display: inline-block;
+  margin: 0 auto 20px;
+  transition: all .8s ease;
 }
 
-.first-row button {
-  width: 20%;
-  vertical-align: baseline;
+.character img {
+  padding: 0 10px;
+  width: 100%;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 #props-list li {
@@ -46,6 +50,21 @@ body {
 
 #props-list li img:hover {
   opacity: .8;
+}
+
+.second-row {
+  width: 30%;
+  margin: 10% 35%;
+}
+
+.second-row input {
+  width: 75%;
+  display: inline-block;
+}
+
+.second-row button {
+  width: 20%;
+  vertical-align: baseline;
 }
 
 #record {

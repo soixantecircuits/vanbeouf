@@ -9,16 +9,22 @@
 <body>
   <div>
     <div class="row animated fadeInUp first-row">
-      <input id="yt-url" class="form-control" type="url" name="yt" placeholder="video URL">
-      <button id="send" class="btn btn-default">Send</button>
-    </div>
-    <div class="row animated fadeOutDown second-row">
-      <ul id="props-list" class="list-inline">
+      <div id="jcvd" class="character animated">
+        <img src="/images/JCVD.jpg" class="img-character" data-character="JCVD" alt="Jean-Claude Van Damme">
+      </div>
+      <div id="slb" class="character animated">
+        <img src="/images/labeouf.jpg" class="img-character" data-character="SLB" alt="Shia LaBeouf">
+      </div>
+      <ul id="props-list" class="list-inline animated fadeOutDown">
       </ul>
     </div>
-    <div class="row animated fadeOutDown third-row">
+    <div class="row animated second-row">
+      <input id="yt-url" class="form-control" value="" type="url" name="yt" placeholder="video URL">
+      <button id="send" class="btn btn-default">Send</button>
+    </div>
+    <div class="row animated third-row">
       <canvas id="canvas"></canvas>
-      <button id="record" class="btn btn-default">Record</button>
+      <!-- <button id="record" class="btn btn-default">Record</button> -->
     </div>
   </div>
 
