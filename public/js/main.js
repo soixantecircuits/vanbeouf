@@ -157,7 +157,7 @@ send.onclick = function(event){
 }
 
 socket.on('video-too-long', function(){
-  event.target.disabled = false;
+  send.disabled = false;
   removeGracefully('.load', 'fadeIn infite', 'fadeOut');
   var errorElem = document.createElement('div');
   errorElem.className = 'error animated';
