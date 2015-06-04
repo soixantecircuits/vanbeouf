@@ -20,27 +20,23 @@
         <h3>A motivational experience delivered to the Internets</h3>
       </div>
       <div id="jcvd" class="left character animated">
-        <img src="/images/JCVD.jpg" class="img-character" data-character="JCVD" alt="Jean-Claude Van Damme">
+        <img src="/images/jcvd.png" class="img-character" data-character="JCVD" alt="Jean-Claude Van Damme">
       </div>
       <div class="battle">
         <p>Pick your side</p>
       </div>
       <div id="slb" class="right character animated">
-        <img src="/images/labeouf.jpg" class="img-character" data-character="SLB" alt="Shia LaBeouf">
+        <img src="/images/slb.png" class="img-character" data-character="shialabeouf" alt="Shia LaBeouf">
       </div>
     </div>
     <div class="row animated second-row">
-      <ul id="props-list" class="list-inline animated">
-        <li>
-          <p>
-            Choose your <span id="picked-character"></span> moment.
-          </p>
-        </li>
+      <ul id="props-list" class="list-unstyled animated">
       </ul>
-      <div class="form animated">
-        <input id="yt-url" class="form-control" value="" type="url" name="yt" placeholder="video URL">
-        <button id="send" class="btn btn-default">Vanbeoufize</button>
-      </div>
+      <form id="form" class="form">
+        <label for="yt"><a href="http://youtube.com/" target="_blank">Paste the link of a <span class="youtube"></span> video</a></label>
+        <input type="url" id="yt-url" name="yt" placeholder="video URL">
+        <button type="submit" class="btn btn-primary" id="send">vanbeoufize !</button>
+      </form>
     </div>
     <div class="row animated third-row">
       <canvas id="canvas"></canvas>
@@ -53,6 +49,7 @@
         </ul>
       </div>
     </div>
+    <div class="credits">Crafted with &hearts; by a bunch of geeks at <a href="http://soixantecircuits.fr">Soixante circuits</a>.</div>
   </div>
 
   <!-- div below is just holding script tags in order no to polluate the DOM in the inspector -->

@@ -1,5 +1,9 @@
 'use strict';
 
+var config = {
+  propsLimit: 6
+}
+
 var socket = io.connect(':'+location.port);
 
 var states = (location.pathname.length > 1) ? location.pathname.split('/') : [];
@@ -32,9 +36,9 @@ var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
 var third = document.querySelector('.third-row');
 var list = document.querySelector('#props-list');
-var form = document.querySelector('.form');
-var send = document.querySelector('#send');
+var form = document.querySelector('#form');
 var input = document.querySelector('#yt-url');
+var send = document.querySelector('#send');
 
 function cleanEmptyArray(array){
   for (var i = 0; i < array.length; i++) {
@@ -47,11 +51,11 @@ function cleanEmptyArray(array){
 }
 
 function initPreload(){
-  for(var i = 1; i < 12; i++){
+  for(var i = 1; i < config.propsLimit; i++){
       var imgObjJCVD = new Image();
-      imgObjJCVD.src = '/props/JCVD/poster' + i + '.PNG';
+      imgObjJCVD.src = '/props/JCVD/poster' + i + '.png';
       var imgObjSLB = new Image();
-      imgObjSLB.src = '/props/SLB/poster' + i + '.PNG';
+      imgObjSLB.src = '/props/shialabeouf/poster' + i + '.png';
   }
 }
 initPreload();
@@ -62,19 +66,18 @@ if(currentState === 1) {
   $(form).hide();
   var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
   $('#picked-character').text(fullname);
-  $(second).addClass('fadeInUp');
+  $(second).addClass('fadeIn');
   generateProps();
 } else if(currentState === 2){
   $(first).hide();
   $(third).hide();
-  var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
-  $('#picked-character').text(fullname);
-  $(second).addClass('fadeInUp');
+  $(second).addClass('fadeIn');
   generateProps();
 } else if(currentState === 3){
   $(first).hide();
   $(second).hide();
-  $(third).addClass('fadeInUp');
+  $(form).hide();
+  $(third).addClass('fadeIn');
   initCanvas();
 } else {
   $(first).addClass('fadeIn');
@@ -89,38 +92,46 @@ if(currentState === 1) {
       $('.pick').addClass('animated fadeOutUp');
       character = event.target.dataset.character;
       history.pushState(character, '', character);
-      var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
-      $('#picked-character').text(fullname);
       generateProps();
-      $(first).removeClass('fadeInUp').addClass('fadeOut');
-      $(second).show().removeClass('fadeOut').addClass('fadeInUp');
+      $(first).removeClass('fadeIn').addClass('fadeOut');
+      $(second).show().removeClass('fadeOut').addClass('fadeIn');
     });
   });
 }
 
 function generateProps(){
-  for (var i = 0; i < 11; i++) {
+  for (var i = 0; i < config.propsLimit; i++) {
     var li = document.createElement('li');
-    var index = i + 1;
+    li.className = 'col-md-6 col-sm-6 col-xs-12';
+    li.dataset.packeryOptions = '{ "itemSelector": ".item", "gutter": 10 }';
 
-    var liImg = document.createElement('img');
-    liImg.src = '/props/' + character + '/poster' + index + '.PNG';
+    var index = i + 1;
+    var liImg = document.createElement('div');
+    $(liImg).css('background-image', 'url(/props/' + character + '/poster' + index + '.png)');
+    $(liImg).css('background-size', 'cover');
+    $(liImg).css('background-position', 'center');
+    $(liImg).css('background-repeat', 'no-repeat');
+    var ratioWidth = window.innerWidth < 768 ? 1 : 2;
+    $(liImg).css('width', window.innerWidth / ratioWidth);
+    $(liImg).css('height', window.innerHeight / 3);
     liImg.dataset.index = index;
     liImg.onclick = function (event){
-      $('li > img').removeClass('active');
+      $('li > div').removeClass('active');
       $(event.target).addClass('active');
       currentProp = event.target.dataset.index;
       history.replaceState(currentProp, '', '/' + character + '/' + currentProp);
-      $(form).show().addClass('animated fadeInUp');
+
+      $(form).show().addClass('animated fadeIn');
+      $(input).focus();
     }
 
     li.appendChild(liImg);
     list.appendChild(li);
   }
-  // $(list).removeClass('fadeOut').addClass('fadeInUp');
 }
 
-send.onclick = function(){
+send.onclick = function(event){
+  event.preventDefault();
   if(!input.value.length){
     return;
   } else if(!input.value.match(/(http(s|):\/\/www\.youtube\.com\/watch\?v=)/gi)){
@@ -128,30 +139,31 @@ send.onclick = function(){
     errorElem.className = 'error animated';
     errorElem.textContent = 'Oops... It\'s seems like your video is not hosted on YouTube!';
     errorElem.style.display = 'none';
-    second.appendChild(errorElem);
+    form.appendChild(errorElem);
     $(errorElem).show().addClass('fadeIn');
     setTimeout(function() {
       removeGracefully(errorElem, 'fadeIn', 'fadeOut');
     }, 5000);
     return;
   }
+  event.target.disabled = true;
   socket.emit('send-URL', input.value);
-  input.value = '';
 
   var loaderElem = document.createElement('div');
   loaderElem.className = 'load animated';
   loaderElem.textContent = 'Loading...';
-  document.querySelector('.second-row').appendChild(loaderElem);
-  $(loaderElem).show().addClass('fadeIn');
+  document.querySelector('.form').appendChild(loaderElem);
+  $(loaderElem).show().addClass('fadeIn infinite');
 }
 
 socket.on('video-too-long', function(){
-  removeGracefully('.load', 'fadeIn', 'fadeOut');
+  event.target.disabled = false;
+  removeGracefully('.load', 'fadeIn infite', 'fadeOut');
   var errorElem = document.createElement('div');
   errorElem.className = 'error animated';
   errorElem.textContent = 'Oops... Your video is too long! Please take a shorter one.';
   errorElem.style.display = 'none';
-  second.appendChild(errorElem);
+  form.appendChild(errorElem);
   $(errorElem).show().addClass('fadeIn');
   setTimeout(function() {
     removeGracefully(errorElem, 'fadeIn', 'fadeOut');
@@ -166,22 +178,22 @@ function removeGracefully(elem, effectToRemove, effectToAdd){
 }
 
 socket.on('download-ended', function (id){
+  event.target.disabled = false;
   removeGracefully('.load', 'fadeIn', 'fadeOut');
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);
   initCanvas();
-  $(second).removeClass('fadeInUp').addClass('fadeOut');
-  $(third).show().removeClass('fadeOut').addClass('fadeInUp');
+  $(second).removeClass('fadeIn').addClass('fadeOut');
+  $(third).show().removeClass('fadeOut').addClass('fadeIn');
 });
 
 function initCanvas(){
-  $(document.body).addClass('hide-overflow');
-
   var videoElement = document.createElement('video');
   videoElement.src = '/backgrounds/' + currentID + '.flv';
   videoElement.id = "video"
   videoElement.controls = true;
   videoElement.autoplay = true;
+  videoElement.loop = true;
   videoElement.style.display = 'none';
   document.body.appendChild(videoElement);
 
@@ -234,9 +246,9 @@ function initCanvas(){
     key.update();
   });
 
-  document.querySelector('.soc-email2').href="mailto:?subject=VanBeouf&body= " + location.href;
-  document.querySelector('.soc-facebook').href="https://www.facebook.com/sharer/sharer.php?u=" + location.href;
-  document.querySelector('.soc-twitter').href="http://twitter.com/home?status=I’ve just vanbeoufed this video. Check it out " + location.href + " #vanbeouf cc @soixanteci";
+  document.querySelector('.soc-email2').href="mailto:?subject=VanBeouf&body= Here's my Vanbeouf video " + location.href + ". Do your Vanbeouf too " + location.origin + " ! Just do it ! #Vanbeouf";
+  document.querySelector('.soc-facebook').href="https://www.facebook.com/sharer/sharer.php?u=I’ve just vanbeoufed this video " + location.href +". Be aware, and make your dreams come true, do your Vanbeouf too " + location.origin + ". Just do it ! #vanbeouf";
+  document.querySelector('.soc-twitter').href="http://twitter.com/home?status=I’ve just vanbeoufed this video " + location.href +". Check it out and do your own #Vanbeouf too. Just do it ! cc @soixanteci ";
 }
 
 $(window).on('popstate', function() {

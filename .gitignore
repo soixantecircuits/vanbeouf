@@ -1,5 +1,4 @@
 node_modules/**
 public/backgrounds/**
-public/props/**
 bower_components/**
 *.log

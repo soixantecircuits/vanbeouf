@@ -9,9 +9,7 @@ var ytdl = require('ytdl-core');
 var port = 1337;
 var videoLengthLimit = 15; // in minutes
 
-
-
-server.listen(process.env.PORT || port, '0.0.0.0', function() {
+server.listen(process.env.PORT || port, '127.0.0.1', function() {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
   console.log("Press Ctrl+C to quit.");
 });
@@ -24,9 +22,9 @@ var routes = [
   '/JCVD',
   '/JCVD/*',
   '/JCVD/*/',
-  '/SLB',
-  '/SLB/*',
-  '/SLB/*/',
+  '/shialabeouf',
+  '/shialabeouf/*',
+  '/shialabeouf/*/',
 ];
 
 var handler = function (req, res){

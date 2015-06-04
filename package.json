@@ -8,10 +8,11 @@
     "url" : "https://github.com/soixantecircuits/vanbeouf"
   },
   "scripts": {
-    "setup": "npm i && bower install && mkdir public/backgrounds public/props",
     "start": "node index.js",
     "monitor": "nodemon app.js",
-    "deploy": "gcloud preview app deploy app.yaml"
+    "deploy": "gcloud preview app deploy app.yaml",
+    "postinstall": "bower install && mkdir public/backgrounds public/props",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "hugohil",
   "license": "none",
