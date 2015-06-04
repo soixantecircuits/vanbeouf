@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js" lang="">
 <head>
   <title>VanBeouf</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link href='http://fonts.googleapis.com/css?family=Carme' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css">
@@ -10,22 +17,22 @@
   <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
-  <!--[if lt IE 8]>
+  <!--[if lt IE 10]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
-  <h1 class="title">Vanboeuf</h1>
+  <h1 data-evt="true" data-category="navigation" data-action="home"><a href="#" title="">Vanboeuf</a></h1>
   <div class="">
     <div class="row animated first-row">
       <div class="app-title">
         <h3>A motivational experience delivered to the Internets</h3>
       </div>
-      <div id="jcvd" class="left character animated">
+      <div data-evt="true" data-category="navigation" data-action="select-jcvd" id="jcvd" class="left character animated">
         <img src="/images/jcvd.png" class="img-character" data-character="JCVD" alt="Jean-Claude Van Damme">
       </div>
       <div class="battle">
         <p>Pick your side</p>
       </div>
-      <div id="slb" class="right character animated">
+      <div data-evt="true" data-category="navigation" data-action="select-shia" id="slb" class="right character animated">
         <img src="/images/slb.png" class="img-character" data-character="shialabeouf" alt="Shia LaBeouf">
       </div>
     </div>
@@ -40,16 +47,16 @@
     </div>
     <div class="row animated third-row">
       <canvas id="canvas"></canvas>
-      <a href="/" class="btn btn-default make-new" title="Make your own">Make a new vanbeouf</a>
+      <a data-evt="true" data-category="navigation" data-action="make-new" href="/" class="btn btn-default make-new" title="Make your own">Make a new vanbeouf</a>
       <div class="social">
         <ul class="soc">
-            <li><a class="soc-twitter" href="#"></a></li>
-            <li><a class="soc-facebook" href="#"></a></li>
-            <li><a class="soc-email2 soc-icon-last" href="#"></a></li>
+            <li data-evt="true" data-category="share" data-action="twitter"><a class="soc-twitter" href="#"></a></li>
+            <li data-evt="true" data-category="share" data-action="facebook"><a class="soc-facebook" href="#"></a></li>
+            <li data-evt="true" data-category="mail" data-action="mail"><a class="soc-email2 soc-icon-last" href="#"></a></li>
         </ul>
       </div>
     </div>
-    <div class="credits">Crafted with &hearts; by a bunch of geeks at <a href="http://soixantecircuits.fr">Soixante circuits</a>.</div>
+    <div class="credits">Crafted with &hearts; by a bunch of geeks at <a href="http://soixantecircuits.fr/?utm_source=vanbeouf&utm_medium=web&utm_term=jcvd&utm_campaign=vanbeouf">Soixante circuits</a>.</div>
   </div>
 
   <!-- div below is just holding script tags in order no to polluate the DOM in the inspector -->
@@ -65,5 +72,13 @@
     <script src="/js/main.js"></script>
     <script src="/js/popup.js"></script>
   </div>
+  <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-63787707-1','auto');ga('send','pageview');
+        </script>
 </body>
 </html>
