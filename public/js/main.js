@@ -126,6 +126,11 @@ function generateProps(){
     }
 
     li.appendChild(liImg);
+    li.onclick = function(){
+      if (typeof(ga) !== 'undefined'){
+        ga('send', 'event', 'navigation', 'select-props', 'number-'+index, '', {'nonInteraction': 1});
+      }
+    }
     list.appendChild(li);
   }
 }
@@ -253,4 +258,11 @@ function initCanvas(){
 
 $(window).on('popstate', function() {
   location.reload();
+});
+
+$(document).on('click', '[data-evt="true"]', function(){
+  console.log($(this).data('trigger'));
+  if (typeof(ga) !== 'undefined'){
+    ga('send', 'event', $(this).data('category'), $(this).data('action'), $(this).data('label'), $(this).data('value'), {'nonInteraction': 1});
+  }
 });
