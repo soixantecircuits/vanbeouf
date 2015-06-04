@@ -2,9 +2,6 @@
 
 var socket = io.connect(':'+location.port);
 
-var send = document.querySelector('#send');
-var input = document.querySelector('#yt-url');
-
 var states = (location.pathname.length > 1) ? location.pathname.split('/') : [];
 states = cleanEmptyArray(states);
 var currentState = states.length;
@@ -14,37 +11,30 @@ var character = '' || states[0];
 var currentProp = '' || states[1];
 var currentID = '' || states[2];
 
-var msg = '', status = Seriously.incompatible();
-if (status) {
-  if (status === 'canvas') {
-    msg = 'Your browser does not support HTML Canvas. Please consider upgrading.';
-  } else if (status === 'webgl') {
-    msg = 'Your browser does not support WebGL. Please try Firefox or Chrome.';
-  } if (status === 'context') {
-    msg = 'Your graphics hardware does not support WebGL. You may need to upgrade your drivers.';
-  } else {
-    msg = 'Unable to display content.'; //unknown error
-  }
-  var elem = document.createElement('div');
-  elem.className = 'incompatible';
-  elem.textContent = msg;
-  document.body.appendChild(elem);
-}
-
-// var capturer = new CCapture({
-//   format: 'gif',
-//   workersPath: 'js/vendor/',
-//   framerate: 30,
-//   quality: 100,
-//   verbose: true
-// });
-// var record = document.querySelector('#record');
-// var isRecording = false;
+// var msg = '', status = Seriously.incompatible();
+// if (status) {
+//   if (status === 'canvas') {
+//     msg = 'Your browser does not support HTML Canvas. Please consider upgrading.';
+//   } else if (status === 'webgl') {
+//     msg = 'Your browser does not support WebGL. Please try Firefox or Chrome.';
+//   } if (status === 'context') {
+//     msg = 'Your graphics hardware does not support WebGL. You may need to upgrade your drivers.';
+//   } else {
+//     msg = 'Unable to display content.'; //unknown error
+//   }
+//   var elem = document.createElement('div');
+//   elem.className = 'incompatible';
+//   elem.textContent = msg;
+//   document.body.appendChild(elem);
+// }
 
 var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
+var third = document.querySelector('.third-row');
 var list = document.querySelector('#props-list');
 var form = document.querySelector('.form');
+var send = document.querySelector('#send');
+var input = document.querySelector('#yt-url');
 
 function cleanEmptyArray(array){
   for (var i = 0; i < array.length; i++) {
@@ -67,39 +57,41 @@ function initPreload(){
 initPreload();
 
 if(currentState === 1) {
-  $(second).hide();
+  $(first).hide();
+  $(third).hide();
   $(form).hide();
-  $(first).addClass('fadeInUp');
-  $('.pick').hide();
-  $('.character').addClass('active smaller');
+  var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
+  $('#picked-character').text(fullname);
+  $(second).addClass('fadeInUp');
   generateProps();
 } else if(currentState === 2){
-  $(second).hide();
-  $(first).addClass('fadeInUp');
-  $('.pick').hide();
-  $('.character').addClass('active smaller');
+  $(first).hide();
+  $(third).hide();
+  $(second).addClass('fadeInUp');
   generateProps();
 } else if(currentState === 3){
   $(first).hide();
-  $(second).addClass('fadeInUp');
+  $(second).hide();
+  $(third).addClass('fadeInUp');
   initCanvas();
 } else {
   $(first).addClass('fadeIn');
   $(second).hide();
+  $(third).hide();
   $(form).hide();
-  setTimeout(function() {
-    $('.separator').addClass('active');
-    $('.character').addClass('active');
-  }, 500);
+  $('.character').addClass('active');
 
   $('.img-character').each(function(){
     $(this).one('click', function (event){
-      $('.separator').removeClass('active');
-      $('.character').addClass('smaller');
+      $('.character').addClass('picked');
       $('.pick').addClass('animated fadeOutUp');
       character = event.target.dataset.character;
       history.pushState(character, '', character);
+      var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
+      $('#picked-character').text(fullname);
       generateProps();
+      $(first).removeClass('fadeInUp').addClass('fadeOutDown');
+      $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
     });
   });
 }
@@ -115,15 +107,17 @@ function generateProps(){
     liImg.src = '/props/' + character + '/poster' + index + '.PNG';
     liImg.dataset.index = index;
     liImg.onclick = function (event){
+      $('li > img').removeClass('active');
+      $(event.target).addClass('active');
       currentProp = event.target.dataset.index;
-      history.pushState(currentProp, '', character + '/' + currentProp);
+      history.replaceState(currentProp, '', '/' + character + '/' + currentProp);
       $(form).show().addClass('animated fadeInUp');
     }
 
     li.appendChild(liImg);
     list.appendChild(li);
   }
-  $(list).removeClass('fadeOutDown').addClass('fadeInUp');
+  // $(list).removeClass('fadeOutDown').addClass('fadeInUp');
 }
 
 send.onclick = function(){
@@ -134,7 +128,7 @@ send.onclick = function(){
     errorElem.className = 'error animated';
     errorElem.textContent = 'Oops... It\'s seems like your video is not hosted on YouTube!';
     errorElem.style.display = 'none';
-    document.querySelector('.second-row').appendChild(errorElem);
+    second.appendChild(errorElem);
     $(errorElem).show().addClass('fadeIn');
     setTimeout(function() {
       removeGracefully(errorElem, 'fadeIn', 'fadeOut');
@@ -157,7 +151,7 @@ socket.on('video-too-long', function(){
   errorElem.className = 'error animated';
   errorElem.textContent = 'Oops... Your video is too long! Please take a shorter one.';
   errorElem.style.display = 'none';
-  document.querySelector('.first-row').appendChild(errorElem);
+  second.appendChild(errorElem);
   $(errorElem).show().addClass('fadeIn');
   setTimeout(function() {
     removeGracefully(errorElem, 'fadeIn', 'fadeOut');
@@ -244,18 +238,3 @@ function initCanvas(){
   document.querySelector('.rrssb-facebook > a').href="https://www.facebook.com/sharer/sharer.php?u=" + location.href;
   document.querySelector('.rrssb-twitter > a').href="http://twitter.com/home?status=" + location.href;
 }
-
-// record.onclick = function(){
-//   if(isRecording){
-//     capturer.stop();
-//     capturer.save(function (blob){
-//       window.location = blob;
-//     });
-//     record.textContent = 'Record';
-//   } else {
-//     capturer.start();
-//     capturer.capture(document.querySelector('#canvas'));
-//     record.textContent = 'Stop';
-//   }
-//   isRecording = !isRecording;
-// }
