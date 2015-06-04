@@ -17,6 +17,16 @@ server.listen(process.env.PORT || port, '127.0.0.1', function() {
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/bower_components'));
 
+// Handle 404
+app.use(function(req, res) {
+   res.sendFile(__dirname + '/public/404.html');
+});
+
+// Handle 500
+app.use(function(error, req, res, next) {
+   res.status(500).send('500: Internal Server Error');
+});
+
 var routes = [
   '/',
   '/JCVD',

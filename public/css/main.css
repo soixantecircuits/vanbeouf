@@ -239,3 +239,10 @@ body {
   background-size: cover;
   margin-bottom: -10px;
 }
+
+.page-404 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: 'Varela Round', sans-serif;
+}
