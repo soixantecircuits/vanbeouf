@@ -164,6 +164,8 @@ socket.on('download-ended', function (id){
 });
 
 function initCanvas(){
+  $(document.body).addClass('hide-overflow');
+
   var videoElement = document.createElement('video');
   videoElement.src = '/backgrounds/' + currentID + '.flv';
   videoElement.id = "video"
