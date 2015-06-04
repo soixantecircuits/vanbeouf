@@ -4,10 +4,11 @@ body {
   font-family: 'Varela Round', sans-serif;
 }
 
+.title,
 .app-title {
   position: absolute;
   width: 100%;
-  top: 20px;
+  bottom: 50px;
   left: 20px;
   z-index: 100;
   text-align: center;
@@ -15,20 +16,11 @@ body {
   font-family: 'Carme', sans-serif;
 }
 
-.app-title a:hover,
-.app-title a:active,
-.app-title a:visited,
-.app-title a:focus,
-.app-title a {
-  color: #FFF;
-  text-decoration: none;
-  opacity: 1;
-  transition: opacity .3s ease;
-}
-.app-title a:hover,
-.app-title a:active,
-.app-title a:focus {
-  opacity: .7;
+.title {
+  text-align: left;
+  top: 20px;
+  width: 150px;
+  height: 50px
 }
 
 .row {
