@@ -173,6 +173,12 @@ body {
   padding: 5px;
 }
 
+.form .inputprogress-js{
+  background: red;
+  width: 0%;
+  height: 37px;
+}
+
 .form button {
   width: 20%;
   min-width: 120px;

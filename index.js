@@ -47,26 +47,6 @@ io.on('connection', function(socket) {
         socket.emit('video-too-long');
         return false;
       } else {
-        var str = progress({
-          length: 22,
-          time: 100
-        });
-        str.on('progress', function(progress) {
-          console.log(progress);
-        /*
-        {
-            percentage: 9.05,
-            transferred: 949624,
-            length: 10485760,
-            remaining: 9536136,
-            eta: 42,
-            runtime: 3,
-            delta: 295396,
-            speed: 949624
-        }
-        */
-        });
-        console.log(info);
         var id = url.replace(/(http(s|):\/\/www\.youtube\.com\/watch\?v=)/gi, '');
         fs.readdir(__dirname + '/public/backgrounds/', function(err, files) {
           if (err) {
@@ -80,16 +60,21 @@ io.on('connection', function(socket) {
               return;
             }
           }
+          var str = progress({
+            /*length: format.size,*/
+            time: 100
+          });
+          str.on('progress', function(progress) {
+            var percent = Math.round(progress.percentage);
+            socket.emit('progress', percent);
+          });
           var download = ytdl(url)
           download.on('end', function() {
             socket.emit('download-ended', id);
           });
           download.on('info', function(info, format) {
-            console.log('info');
-            console.log(info);
-            console.log('format');
-            console.log(format);
-          })
+            str.setLength( format.size );
+          });
           var writeStream = fs.createWriteStream(__dirname + '/public/backgrounds/' + id + '.flv');
           download
             .pipe(str)

@@ -189,6 +189,9 @@ socket.on('video-too-long', function(){
     removeGracefully(errorElem, 'fadeIn', 'fadeOut');
   }, 5000);
 });
+socket.on('progress', function(data){
+  $('.inputprogress-js').width(data+'%');
+});
 
 function removeGracefully(elem, effectToRemove, effectToAdd){
   $(elem).removeClass(effectToRemove).addClass(effectToAdd);
