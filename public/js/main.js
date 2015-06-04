@@ -1,4 +1,19 @@
 'use strict';
+var gl = null;
+var canvas = document.createElement( 'canvas' );
+try { gl = canvas.getContext("webgl"); }
+catch (x) { gl = null; }
+
+if (gl === null) {
+    try { gl = canvas.getContext("experimental-webgl"); experimental = true; }
+    catch (x) { gl = null; }
+}
+
+if(gl == null){
+  console.log('no webgl :( ');
+  $('.main').hide();
+  $('.no-webgl').show();
+}
 
 var config = {
   propsLimit: 6
@@ -264,7 +279,6 @@ $(window).on('popstate', function() {
 });
 
 $(document).on('click', '[data-evt="true"]', function(){
-  console.log($(this).data('trigger'));
   if (typeof(ga) !== 'undefined'){
     ga('send', 'event', $(this).data('category'), $(this).data('action'), $(this).data('label'), $(this).data('value'), {'nonInteraction': 1});
   }

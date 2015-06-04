@@ -239,3 +239,6 @@ body {
   background-size: cover;
   margin-bottom: -10px;
 }
+.no-webgl{
+  display: none;
+}
