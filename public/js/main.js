@@ -32,9 +32,18 @@ var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
 var third = document.querySelector('.third-row');
 var list = document.querySelector('#props-list');
-var form = document.querySelector('.form');
-var send = document.querySelector('#send');
-var input = document.querySelector('#yt-url');
+var BGColor = {JCVD: '#9dff3b', SLB: '#3c47c2'};
+if(character !== ''){
+  if(character === 'JCVD'){
+    $('.row').each(function(){
+      $(this).css('background-color', BGColor.JCVD);
+    });
+  } else {
+    $('.row').each(function(){
+      $(this).css('background-color', BGColor.SLB);
+    });
+  }
+}
 
 function cleanEmptyArray(array){
   for (var i = 0; i < array.length; i++) {
@@ -49,9 +58,9 @@ function cleanEmptyArray(array){
 function initPreload(){
   for(var i = 1; i < 12; i++){
       var imgObjJCVD = new Image();
-      imgObjJCVD.src = '/props/JCVD/poster' + i + '.PNG';
+      imgObjJCVD.src = '/props/JCVD/poster' + i + '.png';
       var imgObjSLB = new Image();
-      imgObjSLB.src = '/props/SLB/poster' + i + '.PNG';
+      imgObjSLB.src = '/props/SLB/poster' + i + '.png';
   }
 }
 initPreload();
@@ -59,28 +68,26 @@ initPreload();
 if(currentState === 1) {
   $(first).hide();
   $(third).hide();
-  $(form).hide();
   var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
   $('#picked-character').text(fullname);
-  $(second).addClass('fadeInUp');
+  $(second).addClass('fadeIn');
   generateProps();
 } else if(currentState === 2){
   $(first).hide();
   $(third).hide();
   var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
   $('#picked-character').text(fullname);
-  $(second).addClass('fadeInUp');
+  $(second).addClass('fadeIn');
   generateProps();
 } else if(currentState === 3){
   $(first).hide();
   $(second).hide();
-  $(third).addClass('fadeInUp');
+  $(third).addClass('fadeIn');
   initCanvas();
 } else {
   $(first).addClass('fadeIn');
   $(second).hide();
   $(third).hide();
-  $(form).hide();
   $('.character').addClass('active');
 
   $('.img-character').each(function(){
@@ -92,8 +99,8 @@ if(currentState === 1) {
       var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
       $('#picked-character').text(fullname);
       generateProps();
-      $(first).removeClass('fadeInUp').addClass('fadeOut');
-      $(second).show().removeClass('fadeOut').addClass('fadeInUp');
+      $(first).removeClass('fadeIn').addClass('fadeOut');
+      $(second).show().removeClass('fadeOut').addClass('fadeIn');
     });
   });
 }
@@ -101,26 +108,58 @@ if(currentState === 1) {
 function generateProps(){
   for (var i = 0; i < 11; i++) {
     var li = document.createElement('li');
-    var index = i + 1;
+    li.className = 'col-md-3 col-sm-6 col-xs-12';
+    li.dataset.packeryOptions = '{ "itemSelector": ".item", "gutter": 10 }';
 
+    var index = i + 1;
     var liImg = document.createElement('img');
-    liImg.src = '/props/' + character + '/poster' + index + '.PNG';
+    liImg.src = '/props/' + character + '/poster' + index + '.png';
     liImg.dataset.index = index;
     liImg.onclick = function (event){
+      $('.form').remove();
       $('li > img').removeClass('active');
       $(event.target).addClass('active');
       currentProp = event.target.dataset.index;
       history.replaceState(currentProp, '', '/' + character + '/' + currentProp);
-      $(form).show().addClass('animated fadeInUp');
+      var form = document.createElement('form');
+      var label = document.createElement('label');
+      var input = document.createElement('input');
+      var btn = document.createElement('button');
+
+      form.className = 'form';
+      form.style.display = 'none';
+
+      label.textContent = 'Paste the link of a Youtube video';
+      label.setAttribute('for', 'yt');
+
+      input.id = "yt-url";
+      input.className = 'form-control';
+      input.type = 'url';
+      input.name = 'yt';
+      input.placeholder = "video URL";
+
+      btn.type = 'submit';
+      btn.textContent = 'Vanbeoufize';
+      btn.className = 'btn btn-default';
+      btn.onclick = function(event){
+        sendURL(event, input);
+      }
+
+      form.appendChild(label);
+      form.appendChild(input);
+      form.appendChild(btn);
+      event.target.parentElement.appendChild(form);
+      $(form).show().addClass('animated fadeIn');
+      $(input).focus();
     }
 
     li.appendChild(liImg);
     list.appendChild(li);
   }
-  // $(list).removeClass('fadeOut').addClass('fadeInUp');
 }
 
-send.onclick = function(){
+function sendURL(event, input){
+  event.preventDefault();
   if(!input.value.length){
     return;
   } else if(!input.value.match(/(http(s|):\/\/www\.youtube\.com\/watch\?v=)/gi)){
@@ -136,7 +175,6 @@ send.onclick = function(){
     return;
   }
   socket.emit('send-URL', input.value);
-  input.value = '';
 
   var loaderElem = document.createElement('div');
   loaderElem.className = 'load animated';
@@ -170,8 +208,8 @@ socket.on('download-ended', function (id){
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);
   initCanvas();
-  $(second).removeClass('fadeInUp').addClass('fadeOut');
-  $(third).show().removeClass('fadeOut').addClass('fadeInUp');
+  $(second).removeClass('fadeIn').addClass('fadeOut');
+  $(third).show().removeClass('fadeOut').addClass('fadeIn');
 });
 
 function initCanvas(){

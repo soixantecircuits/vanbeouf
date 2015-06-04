@@ -85,10 +85,8 @@ body {
 }
 
 .character img {
-  width: 80%;
-  max-width: 300px;
+  width: 100%;
   margin-top: 10%;
-  border-radius: 50%;
   cursor: pointer;
   position: relative;
   transition: all .5s ease;
@@ -105,7 +103,6 @@ body {
 
 .character.active img {
   opacity: 1;
-  width: 100%;
 }
 
 .character.left.active img {
@@ -119,7 +116,7 @@ body {
 }
 
 .second-row {
-  overflow: scroll;
+  overflow: auto;
 }
 
 #props-list {
@@ -127,15 +124,13 @@ body {
 }
 
 #props-list li {
-  width: 25%;
-  min-width: 150px;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
 #props-list li:first-child {
-  width: 24.8%;
+  padding-top: 150px;
 }
 
 #props-list p {
@@ -156,20 +151,28 @@ body {
 }
 
 .form {
-  width: 50%;
-  margin: 30px 25% 0;
-  text-align: right;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 15%;
+  background-color: rgba(0, 0, 0, .2);
+  color: #FFF;
+  font-size: 18px;
 }
 
 .form input {
-  width: 75%;
-  min-width: 300px;
+  width: 60%;
+  min-width: 250px;
   display: inline-block;
+  margin-right: 15px;
 }
 
 .form button {
   width: 20%;
-  min-width: 100px;
+  min-width: 120px;
   vertical-align: baseline;
 }
 
