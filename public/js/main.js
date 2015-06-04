@@ -55,7 +55,7 @@ function initPreload(){
       var imgObjJCVD = new Image();
       imgObjJCVD.src = '/props/JCVD/poster' + i + '.png';
       var imgObjSLB = new Image();
-      imgObjSLB.src = '/props/SLB/poster' + i + '.png';
+      imgObjSLB.src = '/props/shialabeouf/poster' + i + '.png';
   }
 }
 initPreload();
@@ -188,13 +188,12 @@ socket.on('download-ended', function (id){
 });
 
 function initCanvas(){
-  $(document.body).addClass('hide-overflow');
-
   var videoElement = document.createElement('video');
   videoElement.src = '/backgrounds/' + currentID + '.flv';
   videoElement.id = "video"
   videoElement.controls = true;
   videoElement.autoplay = true;
+  videoElement.loop = true;
   videoElement.style.display = 'none';
   document.body.appendChild(videoElement);
 
