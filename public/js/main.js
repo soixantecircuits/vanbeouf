@@ -77,7 +77,7 @@ if(currentState === 1) {
   $(first).hide();
   $(second).hide();
   $(form).hide();
-  $(third).addClass('fadeIn');
+  // $(third).addClass('fadeIn');
   initCanvas();
 } else {
   $(first).addClass('fadeIn');
@@ -162,7 +162,7 @@ send.onclick = function(event){
 }
 
 socket.on('video-too-long', function(){
-  event.target.disabled = false;
+  send.disabled = false;
   removeGracefully('.load', 'fadeIn infite', 'fadeOut');
   var errorElem = document.createElement('div');
   errorElem.className = 'error animated';
@@ -183,13 +183,9 @@ function removeGracefully(elem, effectToRemove, effectToAdd){
 }
 
 socket.on('download-ended', function (id){
-  event.target.disabled = false;
-  removeGracefully('.load', 'fadeIn', 'fadeOut');
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);
   initCanvas();
-  $(second).removeClass('fadeIn').addClass('fadeOut');
-  $(third).show().removeClass('fadeOut').addClass('fadeIn');
 });
 
 function initCanvas(){
@@ -200,6 +196,13 @@ function initCanvas(){
   videoElement.autoplay = true;
   videoElement.loop = true;
   videoElement.style.display = 'none';
+  $(videoElement).on('canplaythrough', function(){
+    event.target.disabled = false;
+    removeGracefully('.load', 'fadeIn', 'fadeOut');
+
+    $(second).removeClass('fadeIn').addClass('fadeOut');
+    $(third).show().removeClass('fadeOut').addClass('fadeIn');
+  });
   document.body.appendChild(videoElement);
 
   var propsElement = document.createElement('video');
