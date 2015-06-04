@@ -207,7 +207,7 @@ body {
 .social {
   position: absolute;
   right: 1%;
-  bottom: 30px;
+  bottom: 40px;
   z-index: 10;
 }
 
@@ -226,16 +226,10 @@ body {
   opacity: 1;
 }
 
-@keyframes blink {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.credits {
+  position: absolute;
+  bottom: 20px;
+  right: 1%;
 }
 
 .browsehappy, .incompatible {
