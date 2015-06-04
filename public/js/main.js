@@ -272,9 +272,9 @@ function initCanvas(){
     key.update();
   });
 
-  document.querySelector('.soc-email2').href="mailto:?subject=VanBeouf&body= " + location.href;
-  document.querySelector('.soc-facebook').href="https://www.facebook.com/sharer/sharer.php?u=" + location.href;
-  document.querySelector('.soc-twitter').href="http://twitter.com/home?status=I’ve just vanbeoufed this video. Check it out " + location.href + " #vanbeouf cc @soixanteci";
+  document.querySelector('.soc-email2').href="mailto:?subject=VanBeouf&body= Here's my Vanbeouf video " + location.href + ". Do your Vanbeouf too " + location.origin + " ! Just do it ! #Vanbeouf";
+  document.querySelector('.soc-facebook').href="https://www.facebook.com/sharer/sharer.php?u=I’ve just vanbeoufed this video " + location.href +". Be aware, and make your dreams come true, do your Vanbeouf too " + location.origin + ". Just do it ! #vanbeouf";
+  document.querySelector('.soc-twitter').href="http://twitter.com/home?status=I’ve just vanbeoufed this video " + location.href +". Check it out and do your own #Vanbeouf too. Just do it ! cc @soixanteci ";
 }
 
 $(window).on('popstate', function() {
