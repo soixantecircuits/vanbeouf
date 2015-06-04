@@ -116,7 +116,6 @@ function generateProps(){
     $(liImg).css('height', window.innerHeight / 3);
     liImg.dataset.index = index;
     liImg.onclick = function (event){
-      $('.form').remove();
       $('li > div').removeClass('active');
       $(event.target).addClass('active');
       currentProp = event.target.dataset.index;
