@@ -90,15 +90,13 @@ if(currentState === 1) {
       var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
       $('#picked-character').text(fullname);
       generateProps();
-      $(first).removeClass('fadeInUp').addClass('fadeOutDown');
-      $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
+      $(first).removeClass('fadeInUp').addClass('fadeOut');
+      $(second).show().removeClass('fadeOut').addClass('fadeInUp');
     });
   });
 }
 
 function generateProps(){
-  var other = character === 'JCVD' ? 'slb' : 'jcvd';
-  $('#' + other).addClass('fadeOutLeft').width(0);
   for (var i = 0; i < 11; i++) {
     var li = document.createElement('li');
     var index = i + 1;
@@ -117,7 +115,7 @@ function generateProps(){
     li.appendChild(liImg);
     list.appendChild(li);
   }
-  // $(list).removeClass('fadeOutDown').addClass('fadeInUp');
+  // $(list).removeClass('fadeOut').addClass('fadeInUp');
 }
 
 send.onclick = function(){
@@ -170,8 +168,8 @@ socket.on('download-ended', function (id){
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);
   initCanvas();
-  $(first).removeClass('fadeInUp').addClass('fadeOutDown');
-  $(second).show().removeClass('fadeOutDown').addClass('fadeInUp');
+  $(first).removeClass('fadeInUp').addClass('fadeOut');
+  $(second).show().removeClass('fadeOut').addClass('fadeInUp');
 });
 
 function initCanvas(){

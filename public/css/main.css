@@ -1,28 +1,33 @@
 /*body.hide-overflow {*/
 body {
   overflow: hidden;
+  font-family: 'Varela Round', sans-serif;
 }
 
-.title {
+.app-title {
   position: absolute;
+  width: 100%;
   top: 20px;
   left: 20px;
   z-index: 100;
+  text-align: center;
+  color: #FFF;
+  font-family: 'Carme', sans-serif;
 }
 
-.title a:hover,
-.title a:active,
-.title a:visited,
-.title a:focus,
-.title a {
-  color: #333;
+.app-title a:hover,
+.app-title a:active,
+.app-title a:visited,
+.app-title a:focus,
+.app-title a {
+  color: #FFF;
   text-decoration: none;
   opacity: 1;
   transition: opacity .3s ease;
 }
-.title a:hover,
-.title a:active,
-.title a:focus {
+.app-title a:hover,
+.app-title a:active,
+.app-title a:focus {
   opacity: .7;
 }
 
@@ -33,6 +38,8 @@ body {
   overflow: hidden;
   height: 100vh;
   background-color: #FFF;
+  margin: 0;
+  padding: 0;
 }
 
 .fadeInUp {
@@ -44,21 +51,43 @@ body {
 }
 
 .first-row {
-  text-align: center;
+  width: 100vw;
+  text-align: left;
 }
 
 .character {
-  width: 30%;
+  width: 50%;
   height: 100%;
   display: inline-block;
   margin: 0 auto 20px;
   transition: all .8s ease;
   overflow: hidden;
+  float: left;
+  text-align: center;
+}
+
+.character.left {
+  background-color: #9dff3b;
+}
+
+.character.right {
+  background-color: #3c47c2;
+}
+
+.battle {
+  position: absolute;
+  top: 40%;
+  text-align: center;
+  width: 100%;
+  font-size: 34px;
+  color: #FFF;
+  font-family: 'Carme', sans-serif;
 }
 
 .character img {
-  padding: 0 10%;
   width: 80%;
+  max-width: 300px;
+  margin-top: 10%;
   border-radius: 50%;
   cursor: pointer;
   position: relative;
@@ -66,11 +95,11 @@ body {
   opacity: 0;
 }
 
-.character#jcvd img {
+.character.left img {
   right: -100%;
 }
 
-.character#slb img {
+.character.right img {
   left: -100%;
 }
 
@@ -79,12 +108,12 @@ body {
   width: 100%;
 }
 
-.character#jcvd.active img {
+.character.left.active img {
   opacity: 1;
   right: 0;
 }
 
-.character#slb.active img {
+.character.right.active img {
   opacity: 1;
   left: 0;
 }
@@ -106,7 +135,7 @@ body {
 }
 
 #props-list li:first-child {
-  width: 24.65%;
+  width: 24.8%;
 }
 
 #props-list p {
