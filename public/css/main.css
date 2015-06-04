@@ -23,6 +23,10 @@ body {
   height: 50px
 }
 
+.title a {
+  color: #FFF;
+}
+
 .row {
   position: absolute;
   top: 0;
