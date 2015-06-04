@@ -234,7 +234,11 @@ function initCanvas(){
     key.update();
   });
 
-  // document.querySelector('.rrssb-email > a').href="mailto:?subject=VanBeouf&body= " + location.href;
-  // document.querySelector('.rrssb-facebook > a').href="https://www.facebook.com/sharer/sharer.php?u=" + location.href;
-  // document.querySelector('.rrssb-twitter > a').href="http://twitter.com/home?status=" + location.href;
+  document.querySelector('.soc-email2').href="mailto:?subject=VanBeouf&body= " + location.href;
+  document.querySelector('.soc-facebook').href="https://www.facebook.com/sharer/sharer.php?u=" + location.href;
+  document.querySelector('.soc-twitter').href="http://twitter.com/home?status=I’ve just vanbeoufed this video. Check it out " + location.href + " #vanbeouf cc @soixanteci";
 }
+
+$(window).on('popstate', function() {
+  location.reload();
+});

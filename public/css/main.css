@@ -195,13 +195,22 @@ body {
   position: absolute;
   right: 1%;
   bottom: 30px;
-  width: 33%;
   z-index: 10;
 }
 
-#record {
+.make-new {
   position: absolute;
-  bottom: 150px;
+  bottom: 30px;
+  left: 30px;
+  z-index: 10;
+  text-transform: uppercase;
+  opacity: .5;
+  transition: opacity .3s ease;
+}
+
+.make-new:focus,
+.make-new:hover {
+  opacity: 1;
 }
 
 @keyframes blink {
