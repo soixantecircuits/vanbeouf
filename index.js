@@ -22,9 +22,9 @@ var routes = [
   '/JCVD',
   '/JCVD/*',
   '/JCVD/*/',
-  '/SLB',
-  '/SLB/*',
-  '/SLB/*/',
+  '/shialabeouf',
+  '/shialabeouf/*',
+  '/shialabeouf/*/',
 ];
 
 var handler = function (req, res){
