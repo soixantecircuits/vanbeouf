@@ -23,6 +23,10 @@ body {
   height: 50px
 }
 
+.title a {
+  color: #FFF;
+}
+
 .row {
   position: absolute;
   top: 0;
@@ -245,6 +249,16 @@ body {
   background-size: cover;
   margin-bottom: -10px;
 }
+
 .no-webgl{
   display: none;
+  font-family: 'Varela Round', sans-serif;
+}
+
+
+.page-404 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: 'Varela Round', sans-serif;
 }
