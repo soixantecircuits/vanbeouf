@@ -71,5 +71,3 @@ io.on('connection', function (socket) {
     });
   });
 });
-
-console.log('Running on http://localhost:' + port);
