@@ -9,7 +9,13 @@ var ytdl = require('ytdl-core');
 var port = 1337;
 var videoLengthLimit = 15; // in minutes
 
-server.listen(port);
+
+
+server.listen(process.env.PORT || port, '0.0.0.0', function() {
+  console.log('App listening at http://%s:%s', server.address().address, server.address().port);
+  console.log("Press Ctrl+C to quit.");
+});
+
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/bower_components'));
 
