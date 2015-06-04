@@ -67,6 +67,8 @@ if(currentState === 1) {
 } else if(currentState === 2){
   $(first).hide();
   $(third).hide();
+  var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
+  $('#picked-character').text(fullname);
   $(second).addClass('fadeInUp');
   generateProps();
 } else if(currentState === 3){
@@ -139,7 +141,7 @@ send.onclick = function(){
   var loaderElem = document.createElement('div');
   loaderElem.className = 'load animated';
   loaderElem.textContent = 'Loading...';
-  document.querySelector('.first-row').appendChild(loaderElem);
+  document.querySelector('.second-row').appendChild(loaderElem);
   $(loaderElem).show().addClass('fadeIn');
 }
 
@@ -168,8 +170,8 @@ socket.on('download-ended', function (id){
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);
   initCanvas();
-  $(first).removeClass('fadeInUp').addClass('fadeOut');
-  $(second).show().removeClass('fadeOut').addClass('fadeInUp');
+  $(second).removeClass('fadeInUp').addClass('fadeOut');
+  $(third).show().removeClass('fadeOut').addClass('fadeInUp');
 });
 
 function initCanvas(){
@@ -232,7 +234,7 @@ function initCanvas(){
     key.update();
   });
 
-  document.querySelector('.rrssb-email > a').href="mailto:?subject=VanBeouf&body= " + location.href;
-  document.querySelector('.rrssb-facebook > a').href="https://www.facebook.com/sharer/sharer.php?u=" + location.href;
-  document.querySelector('.rrssb-twitter > a').href="http://twitter.com/home?status=" + location.href;
+  // document.querySelector('.rrssb-email > a').href="mailto:?subject=VanBeouf&body= " + location.href;
+  // document.querySelector('.rrssb-facebook > a').href="https://www.facebook.com/sharer/sharer.php?u=" + location.href;
+  // document.querySelector('.rrssb-twitter > a').href="http://twitter.com/home?status=" + location.href;
 }
