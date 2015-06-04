@@ -1,5 +1,9 @@
 'use strict';
 
+var config = {
+  propsLimit: 6
+}
+
 var socket = io.connect(':'+location.port);
 
 var states = (location.pathname.length > 1) ? location.pathname.split('/') : [];
@@ -32,18 +36,9 @@ var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
 var third = document.querySelector('.third-row');
 var list = document.querySelector('#props-list');
-var BGColor = {JCVD: '#9dff3b', SLB: '#3c47c2'};
-if(character !== ''){
-  if(character === 'JCVD'){
-    $('.row').each(function(){
-      $(this).css('background-color', BGColor.JCVD);
-    });
-  } else {
-    $('.row').each(function(){
-      $(this).css('background-color', BGColor.SLB);
-    });
-  }
-}
+var form = document.querySelector('#form');
+var input = document.querySelector('#yt-url');
+var send = document.querySelector('#send');
 
 function cleanEmptyArray(array){
   for (var i = 0; i < array.length; i++) {
@@ -56,7 +51,7 @@ function cleanEmptyArray(array){
 }
 
 function initPreload(){
-  for(var i = 1; i < 12; i++){
+  for(var i = 1; i < config.propsLimit; i++){
       var imgObjJCVD = new Image();
       imgObjJCVD.src = '/props/JCVD/poster' + i + '.png';
       var imgObjSLB = new Image();
@@ -68,6 +63,7 @@ initPreload();
 if(currentState === 1) {
   $(first).hide();
   $(third).hide();
+  $(form).hide();
   var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
   $('#picked-character').text(fullname);
   $(second).addClass('fadeIn');
@@ -75,19 +71,19 @@ if(currentState === 1) {
 } else if(currentState === 2){
   $(first).hide();
   $(third).hide();
-  var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
-  $('#picked-character').text(fullname);
   $(second).addClass('fadeIn');
   generateProps();
 } else if(currentState === 3){
   $(first).hide();
   $(second).hide();
+  $(form).hide();
   $(third).addClass('fadeIn');
   initCanvas();
 } else {
   $(first).addClass('fadeIn');
   $(second).hide();
   $(third).hide();
+  $(form).hide();
   $('.character').addClass('active');
 
   $('.img-character').each(function(){
@@ -96,8 +92,6 @@ if(currentState === 1) {
       $('.pick').addClass('animated fadeOutUp');
       character = event.target.dataset.character;
       history.pushState(character, '', character);
-      var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
-      $('#picked-character').text(fullname);
       generateProps();
       $(first).removeClass('fadeIn').addClass('fadeOut');
       $(second).show().removeClass('fadeOut').addClass('fadeIn');
@@ -106,49 +100,28 @@ if(currentState === 1) {
 }
 
 function generateProps(){
-  for (var i = 0; i < 11; i++) {
+  for (var i = 0; i < config.propsLimit; i++) {
     var li = document.createElement('li');
-    li.className = 'col-md-3 col-sm-6 col-xs-12';
+    li.className = 'col-md-6 col-sm-6 col-xs-12';
     li.dataset.packeryOptions = '{ "itemSelector": ".item", "gutter": 10 }';
 
     var index = i + 1;
-    var liImg = document.createElement('img');
-    liImg.src = '/props/' + character + '/poster' + index + '.png';
+    var liImg = document.createElement('div');
+    $(liImg).css('background-image', 'url(/props/' + character + '/poster' + index + '.png)');
+    $(liImg).css('background-size', 'cover');
+    $(liImg).css('background-position', 'center');
+    $(liImg).css('background-repeat', 'no-repeat');
+    var ratioWidth = window.innerWidth < 768 ? 1 : 2;
+    $(liImg).css('width', window.innerWidth / ratioWidth);
+    $(liImg).css('height', window.innerHeight / 3);
     liImg.dataset.index = index;
     liImg.onclick = function (event){
       $('.form').remove();
-      $('li > img').removeClass('active');
+      $('li > div').removeClass('active');
       $(event.target).addClass('active');
       currentProp = event.target.dataset.index;
       history.replaceState(currentProp, '', '/' + character + '/' + currentProp);
-      var form = document.createElement('form');
-      var label = document.createElement('label');
-      var input = document.createElement('input');
-      var btn = document.createElement('button');
 
-      form.className = 'form';
-      form.style.display = 'none';
-
-      label.textContent = 'Paste the link of a Youtube video';
-      label.setAttribute('for', 'yt');
-
-      input.id = "yt-url";
-      input.className = 'form-control';
-      input.type = 'url';
-      input.name = 'yt';
-      input.placeholder = "video URL";
-
-      btn.type = 'submit';
-      btn.textContent = 'Vanbeoufize';
-      btn.className = 'btn btn-default';
-      btn.onclick = function(event){
-        sendURL(event, input);
-      }
-
-      form.appendChild(label);
-      form.appendChild(input);
-      form.appendChild(btn);
-      event.target.parentElement.appendChild(form);
       $(form).show().addClass('animated fadeIn');
       $(input).focus();
     }
@@ -158,7 +131,7 @@ function generateProps(){
   }
 }
 
-function sendURL(event, input){
+send.onclick = function(event){
   event.preventDefault();
   if(!input.value.length){
     return;
@@ -167,29 +140,31 @@ function sendURL(event, input){
     errorElem.className = 'error animated';
     errorElem.textContent = 'Oops... It\'s seems like your video is not hosted on YouTube!';
     errorElem.style.display = 'none';
-    second.appendChild(errorElem);
+    form.appendChild(errorElem);
     $(errorElem).show().addClass('fadeIn');
     setTimeout(function() {
       removeGracefully(errorElem, 'fadeIn', 'fadeOut');
     }, 5000);
     return;
   }
+  event.target.disabled = true;
   socket.emit('send-URL', input.value);
 
   var loaderElem = document.createElement('div');
   loaderElem.className = 'load animated';
   loaderElem.textContent = 'Loading...';
-  document.querySelector('.second-row').appendChild(loaderElem);
-  $(loaderElem).show().addClass('fadeIn');
+  document.querySelector('.form').appendChild(loaderElem);
+  $(loaderElem).show().addClass('fadeIn infinite');
 }
 
 socket.on('video-too-long', function(){
-  removeGracefully('.load', 'fadeIn', 'fadeOut');
+  event.target.disabled = false;
+  removeGracefully('.load', 'fadeIn infite', 'fadeOut');
   var errorElem = document.createElement('div');
   errorElem.className = 'error animated';
   errorElem.textContent = 'Oops... Your video is too long! Please take a shorter one.';
   errorElem.style.display = 'none';
-  second.appendChild(errorElem);
+  form.appendChild(errorElem);
   $(errorElem).show().addClass('fadeIn');
   setTimeout(function() {
     removeGracefully(errorElem, 'fadeIn', 'fadeOut');
@@ -204,6 +179,7 @@ function removeGracefully(elem, effectToRemove, effectToAdd){
 }
 
 socket.on('download-ended', function (id){
+  event.target.disabled = false;
   removeGracefully('.load', 'fadeIn', 'fadeOut');
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);

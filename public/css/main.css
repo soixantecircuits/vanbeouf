@@ -121,16 +121,14 @@ body {
 
 #props-list {
   text-align: left;
+  overflow-x: hidden;
 }
 
 #props-list li {
   margin: 0;
   padding: 0;
   text-align: center;
-}
-
-#props-list li:first-child {
-  padding-top: 150px;
+  overflow: hidden;
 }
 
 #props-list p {
@@ -138,15 +136,15 @@ body {
   padding: 0;
 }
 
-#props-list li img {
+#props-list li div {
   width: 100%;
   cursor: pointer;
   opacity: .8;
   transition: opacity .3s ease;
 }
 
-#props-list li img.active,
-#props-list li img:hover {
+#props-list li div.active,
+#props-list li div:hover {
   opacity: 1;
 }
 
@@ -157,10 +155,19 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  padding-top: 15%;
+  padding-top: 35%;
   background-color: rgba(0, 0, 0, .2);
   color: #FFF;
   font-size: 18px;
+}
+
+.form label {
+  display: block;
+  margin-bottom: 30px;
+}
+
+.form label a {
+  color: #FFF;
 }
 
 .form input {
@@ -168,23 +175,26 @@ body {
   min-width: 250px;
   display: inline-block;
   margin-right: 15px;
+  background: rgba(0, 0, 0, .3);
+  border: 1px solid #333;
+  color: #FFF;
+  padding: 5px;
 }
 
 .form button {
   width: 20%;
   min-width: 120px;
-  vertical-align: baseline;
 }
 
 .error {
   color: #ffcc32;
   font-size: 18px;
+  margin-top: 30px;
 }
 
 .load {
+  margin-top: 30px;
   opacity: 1;
-  animation: blink 2s infinite;
-  transition: opacity .2s ease;
 }
 
 .third-row {

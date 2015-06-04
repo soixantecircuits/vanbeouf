@@ -31,12 +31,12 @@
     </div>
     <div class="row animated second-row">
       <ul id="props-list" class="list-unstyled animated">
-        <li class="col-md-3 col-sm-6 col-xs-12">
-          <p>
-            Choose your <span id="picked-character"></span> moment.
-          </p>
-        </li>
       </ul>
+      <form id="form" class="form">
+        <label for="yt"><a href="http://youtube.com/" target="_blank">Paste the link of a Youtube video</a></label>
+        <input type="url" id="yt-url" name="yt" placeholder="video URL">
+        <button type="submit" class="btn btn-primary" id="send">vanbeoufize !</button>
+      </form>
     </div>
     <div class="row animated third-row">
       <canvas id="canvas"></canvas>
