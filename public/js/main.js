@@ -291,7 +291,7 @@ function initCanvas() {
 }
 
 $(window).on('popstate', function() {
-  //location.reload();
+  location.reload();
 });
 
 $(document).on('click', '[data-evt="true"]', function() {
