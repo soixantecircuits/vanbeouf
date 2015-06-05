@@ -1,15 +1,13 @@
 'use strict';
-var gl = null;
-var canvas = document.createElement( 'canvas' );
-try { gl = canvas.getContext("webgl"); }
-catch (x) { gl = null; }
-
-if (gl === null) {
-    try { gl = canvas.getContext("experimental-webgl"); experimental = true; }
-    catch (x) { gl = null; }
+function supportWEBGL() {
+  try {
+    var canvas = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+  } catch (e) {
+    return false;
+  }
 }
 
-if(gl == null){
+if (!supportWEBGL()) {
   console.log('no webgl :( ');
   $('.main').hide();
   $('.no-webgl').show();
@@ -19,7 +17,7 @@ var config = {
   propsLimit: 6
 }
 
-var socket = io.connect(':'+location.port);
+var socket = io.connect(':' + location.port);
 
 var states = (location.pathname.length > 1) ? location.pathname.split('/') : [];
 states = cleanEmptyArray(states);
@@ -38,9 +36,9 @@ var form = document.querySelector('#form');
 var input = document.querySelector('#yt-url');
 var send = document.querySelector('#send');
 
-function cleanEmptyArray(array){
+function cleanEmptyArray(array) {
   for (var i = 0; i < array.length; i++) {
-    if(array[i] == ''){
+    if (array[i] == '') {
       array.splice(i, 1);
       i--;
     }
@@ -48,21 +46,21 @@ function cleanEmptyArray(array){
   return array;
 }
 
-function initPreload(){
-  for(var i = 1; i < config.propsLimit; i++){
-      var imgObjJCVD = new Image();
-      imgObjJCVD.src = '/props/JCVD/poster' + i + '.png';
-      var imgObjJCVDgif = new Image();
-      imgObjJCVDgif.src = '/props/JCVD/gif' + i + '.png';
-      var imgObjSLB = new Image();
-      imgObjSLB.src = '/props/shialabeouf/poster' + i + '.png';
-      var imgObjSLBgif = new Image();
-      imgObjSLBgif.src = '/props/shialabeouf/gif' + i + '.png';
+function initPreload() {
+  for (var i = 1; i < config.propsLimit; i++) {
+    var imgObjJCVD = new Image();
+    imgObjJCVD.src = '/props/JCVD/poster' + i + '.png';
+    var imgObjJCVDgif = new Image();
+    imgObjJCVDgif.src = '/props/JCVD/gif' + i + '.png';
+    var imgObjSLB = new Image();
+    imgObjSLB.src = '/props/shialabeouf/poster' + i + '.png';
+    var imgObjSLBgif = new Image();
+    imgObjSLBgif.src = '/props/shialabeouf/gif' + i + '.png';
   }
 }
 initPreload();
 
-if(currentState === 1) {
+if (currentState === 1) {
   $(first).hide();
   $(third).hide();
   $(form).hide();
@@ -70,17 +68,17 @@ if(currentState === 1) {
   $('#picked-character').text(fullname);
   $(second).removeClass('hidden').addClass('fadeIn');
   generateProps();
-} else if(currentState === 2){
+} else if (currentState === 2) {
   $(first).hide();
   $(third).hide();
-  if(character == 'JCVD'){
+  if (character == 'JCVD') {
     $(input).css('background-color', '#01FE1E');
   } else {
     $(input).css('background-color', '#63AF73');
   }
   $(second).removeClass('hidden').addClass('fadeIn');
   generateProps();
-} else if(currentState === 3){
+} else if (currentState === 3) {
   $(first).hide();
   $(second).hide();
   $(form).hide();
@@ -92,8 +90,8 @@ if(currentState === 1) {
   $(form).hide();
   $('.character').addClass('active');
 
-  $('.character-img').each(function(){
-    $(this).one('click', function (event){
+  $('.character-img').each(function() {
+    $(this).one('click', function(event) {
       $('.character').addClass('picked');
       $('.pick').addClass('animated fadeOutUp');
       character = event.target.dataset.character;
@@ -105,7 +103,7 @@ if(currentState === 1) {
   });
 }
 
-function generateProps(){
+function generateProps() {
   for (var i = 0; i < config.propsLimit; i++) {
     var li = document.createElement('li');
     li.className = 'col-md-6 col-sm-6 col-xs-12';
@@ -116,7 +114,7 @@ function generateProps(){
     $(liImg).css('background-image', 'url(/props/' + character + '/poster' + index + '.png)');
     $(liImg).css('background-size', 'cover');
     $(liImg).css('background-repeat', 'no-repeat');
-    if(character == 'JCVD'){
+    if (character == 'JCVD') {
       $(liImg).css('background-color', '#01FE1E');
     } else {
       $(liImg).css('background-color', '#63AF73');
@@ -125,12 +123,12 @@ function generateProps(){
     $(liImg).css('width', window.innerWidth / ratioWidth);
     $(liImg).css('height', window.innerHeight / 3);
     liImg.dataset.index = index;
-    liImg.onclick = function (event){
+    liImg.onclick = function(event) {
       $('li > div').removeClass('active');
       $(event.target).addClass('active');
       currentProp = event.target.dataset.index;
       history.replaceState(currentProp, '', '/' + character + '/' + currentProp);
-      if(character == 'JCVD'){
+      if (character == 'JCVD') {
         $(input).css('background-color', '#01FE1E');
       } else {
         $(input).css('background-color', '#63AF73');
@@ -138,28 +136,30 @@ function generateProps(){
       $(form).show().addClass('animated fadeIn');
       $(input).focus();
     }
-    $(liImg).on('mouseenter', function(){
+    $(liImg).on('mouseenter', function() {
       $(this).css('background-image', 'url(/props/' + character + '/gif' + this.dataset.index + '.gif)');
     });
-    $(liImg).on('mouseleave', function(){
+    $(liImg).on('mouseleave', function() {
       $(this).css('background-image', 'url(/props/' + character + '/poster' + this.dataset.index + '.png)');
     })
 
     li.appendChild(liImg);
-    li.onclick = function(){
-      if (typeof(ga) !== 'undefined'){
-        ga('send', 'event', 'navigation', 'select-props', 'number-'+index, '', {'nonInteraction': 1});
+    li.onclick = function() {
+      if (typeof (ga) !== 'undefined') {
+        ga('send', 'event', 'navigation', 'select-props', 'number-' + index, '', {
+          'nonInteraction': 1
+        });
       }
     }
     list.appendChild(li);
   }
 }
 
-send.onclick = function(event){
+send.onclick = function(event) {
   event.preventDefault();
-  if(!input.value.length){
+  if (!input.value.length) {
     return;
-  } else if(!input.value.match(/(http(s|):\/\/www\.youtube\.com\/watch\?v=)/gi)){
+  } else if (!input.value.match(/(http(s|):\/\/www\.youtube\.com\/watch\?v=)/gi)) {
     var errorElem = document.createElement('div');
     errorElem.className = 'error animated';
     errorElem.textContent = 'Oops... It\'s seems like your video is not hosted on YouTube!';
@@ -181,7 +181,7 @@ send.onclick = function(event){
   $(loaderElem).show().addClass('fadeIn infinite');
 }
 
-socket.on('video-too-long', function(){
+socket.on('video-too-long', function() {
   send.disabled = false;
   removeGracefully('.load', 'fadeIn infite', 'fadeOut');
   var errorElem = document.createElement('div');
@@ -195,24 +195,24 @@ socket.on('video-too-long', function(){
   }, 5000);
 });
 
-socket.on('progress', function(data){
-  $('.inputprogress-js').text(data+'%');
+socket.on('progress', function(data) {
+  $('.inputprogress-js').text(data + '%');
 });
 
-function removeGracefully(elem, effectToRemove, effectToAdd){
+function removeGracefully(elem, effectToRemove, effectToAdd) {
   $(elem).removeClass(effectToRemove).addClass(effectToAdd);
   setTimeout(function() {
     $(elem).remove();
   }, 1000);
 }
 
-socket.on('download-ended', function (id){
+socket.on('download-ended', function(id) {
   currentID = id;
   history.pushState(id, '', history.state + '/' + id);
   initCanvas();
 });
 
-function initCanvas(){
+function initCanvas() {
   var videoElement = document.createElement('video');
   videoElement.src = '/backgrounds/' + currentID + '.flv';
   videoElement.id = "video"
@@ -220,7 +220,7 @@ function initCanvas(){
   videoElement.autoplay = true;
   videoElement.loop = true;
   videoElement.style.display = 'none';
-  $(videoElement).on('canplaythrough', function(){
+  $(videoElement).on('canplaythrough', function() {
     removeGracefully('.load', 'fadeIn', 'fadeOut');
 
     $(second).removeClass('fadeIn').addClass('fadeOut');
@@ -247,7 +247,7 @@ function initCanvas(){
   formatKey = seriously.transform('reformat');
   formatVideo = seriously.transform('reformat');
 
-  if(character === 'JCVD'){
+  if (character === 'JCVD') {
     chroma.screen[0] = 0;
     chroma.screen[1] = 1;
     chroma.screen[2] = 0.12;
@@ -273,21 +273,23 @@ function initCanvas(){
 
   target.source = blend;
 
-  seriously.go(function(){
+  seriously.go(function() {
     key.update();
   });
 
-  document.querySelector('.soc-email2').href="mailto:?subject=VanBeouf&body= Here's my Vanbeouf video " + location.href + ". Do your Vanbeouf too " + location.origin + " ! Just do it ! #Vanbeouf";
-  document.querySelector('.soc-facebook').href="https://www.facebook.com/sharer/sharer.php?u=I’ve just vanbeoufed this video " + location.href +". Be aware, and make your dreams come true, do your Vanbeouf too " + location.origin + ". Just do it ! #vanbeouf";
-  document.querySelector('.soc-twitter').href="http://twitter.com/home?status=I’ve just vanbeoufed this video " + location.href +". Check it out and do your own #Vanbeouf too. Just do it ! cc @soixanteci ";
+  document.querySelector('.soc-email2').href = "mailto:?subject=VanBeouf&body= Here's my Vanbeouf video " + location.href + ". Do your Vanbeouf too " + location.origin + " ! Just do it ! #Vanbeouf";
+  document.querySelector('.soc-facebook').href = "https://www.facebook.com/sharer/sharer.php?u=I’ve just vanbeoufed this video " + location.href + ". Be aware, and make your dreams come true, do your Vanbeouf too " + location.origin + ". Just do it ! #vanbeouf";
+  document.querySelector('.soc-twitter').href = "http://twitter.com/home?status=I’ve just vanbeoufed this video " + location.href + ". Check it out and do your own #Vanbeouf too. Just do it ! cc @soixanteci ";
 }
 
 $(window).on('popstate', function() {
-  location.reload();
+  //location.reload();
 });
 
-$(document).on('click', '[data-evt="true"]', function(){
-  if (typeof(ga) !== 'undefined'){
-    ga('send', 'event', $(this).data('category'), $(this).data('action'), $(this).data('label'), $(this).data('value'), {'nonInteraction': 1});
+$(document).on('click', '[data-evt="true"]', function() {
+  if (typeof (ga) !== 'undefined') {
+    ga('send', 'event', $(this).data('category'), $(this).data('action'), $(this).data('label'), $(this).data('value'), {
+      'nonInteraction': 1
+    });
   }
 });
