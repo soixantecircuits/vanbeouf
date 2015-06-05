@@ -233,16 +233,25 @@ body {
 
 .make-new {
   position: absolute;
-  bottom: 30px;
-  left: 30px;
+  top: 35%;
+  left: 35%;
   z-index: 10;
   text-transform: uppercase;
-  opacity: .5;
+  opacity: 0;
+  background: center no-repeat url(/images/katana.png);
+  width: 30%;
+  height: 30%;
+  display: block;
+  margin: auto;
   transition: opacity .3s ease;
+  color: #FFF;
+  font-size: 24px;
 }
 
 .make-new:focus,
 .make-new:hover {
+  color: #FFF;
+  text-decoration: none;
   opacity: 1;
 }
 
