@@ -85,21 +85,20 @@ if(currentState === 1) {
   $(form).hide();
   var fullname = (character === 'JCVD') ? 'Van Damme' : 'LaBeouf';
   $('#picked-character').text(fullname);
-  $(second).addClass('fadeIn');
+  $(second).removeClass('hidden').addClass('fadeIn');
   generateProps();
 } else if(currentState === 2){
   $(first).hide();
   $(third).hide();
-  $(second).addClass('fadeIn');
+  $(second).removeClass('hidden').addClass('fadeIn');
   generateProps();
 } else if(currentState === 3){
   $(first).hide();
   $(second).hide();
   $(form).hide();
-  // $(third).addClass('fadeIn');
   initCanvas();
 } else {
-  $(first).addClass('fadeIn');
+  $(first).removeClass('hidden').addClass('fadeIn');
   $(second).hide();
   $(third).hide();
   $(form).hide();
@@ -113,7 +112,7 @@ if(currentState === 1) {
       history.pushState(character, '', character);
       generateProps();
       $(first).removeClass('fadeIn').addClass('fadeOut');
-      $(second).show().removeClass('fadeOut').addClass('fadeIn');
+      $(second).show().removeClass('fadeOut hidden').addClass('fadeIn');
     });
   });
 }
@@ -175,7 +174,7 @@ send.onclick = function(event){
     errorElem.textContent = 'Oops... It\'s seems like your video is not hosted on YouTube!';
     errorElem.style.display = 'none';
     form.appendChild(errorElem);
-    $(errorElem).show().addClass('fadeIn');
+    $(errorElem).show().removeClass('hidden').addClass('fadeIn');
     setTimeout(function() {
       removeGracefully(errorElem, 'fadeIn', 'fadeOut');
     }, 5000);
@@ -233,7 +232,7 @@ function initCanvas(){
     removeGracefully('.load', 'fadeIn', 'fadeOut');
 
     $(second).removeClass('fadeIn').addClass('fadeOut');
-    $(third).show().removeClass('fadeOut').addClass('fadeIn');
+    $(third).show().removeClass('fadeOut').removeClass('hidden').addClass('fadeIn');
   });
   document.body.appendChild(videoElement);
 

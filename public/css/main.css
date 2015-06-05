@@ -9,6 +9,10 @@ body {
   font-family: 'Varela Round', sans-serif;
 }
 
+.hidden {
+  display: none;
+}
+
 .title,
 .app-title {
   position: absolute;
