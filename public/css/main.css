@@ -41,6 +41,13 @@ body {
   background-size: contain;
 }
 
+.select {
+  position: absolute;
+  left: 30vw;
+  width: 250px;
+  font-size: 24px;
+}
+
 .row {
   position: absolute;
   top: 0;
