@@ -1,4 +1,9 @@
-/*body.hide-overflow {*/
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
 body {
   overflow: hidden;
   font-family: 'Varela Round', sans-serif;
