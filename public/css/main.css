@@ -7,24 +7,29 @@ body {
 .title,
 .app-title {
   position: absolute;
-  width: 100%;
-  bottom: 50px;
-  left: 20px;
   z-index: 100;
-  text-align: center;
-  color: #FFF;
+  color: #333;
   font-family: 'Carme', sans-serif;
-}
-
-.title {
   text-align: left;
   top: 20px;
-  width: 150px;
-  height: 50px
+  left: 20px;
+  width: 200px;
+  height: 200px;
+}
+
+.app-title {
+  top: 50px;
+  left: 280px;
+  width: 300px;
 }
 
 .title a {
   color: #FFF;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: center no-repeat url(/images/logo.png);
+  background-size: contain;
 }
 
 .row {
@@ -62,53 +67,66 @@ body {
   text-align: center;
 }
 
-.character.left {
-  background-color: #9dff3b;
-}
-
-.character.right {
-  background-color: #3c47c2;
-}
-
-.battle {
-  position: absolute;
-  top: 40%;
-  text-align: center;
-  width: 100%;
-  font-size: 34px;
-  color: #FFF;
-  font-family: 'Carme', sans-serif;
-}
-
-.character img {
-  width: 100%;
-  margin-top: 10%;
-  cursor: pointer;
+.character .character-img {
+  margin: 25% auto 0;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  overflow: hidden;
   position: relative;
+  cursor: pointer;
   transition: all .5s ease;
-  opacity: 0;
 }
 
-.character.left img {
+.character.left .character-img {
+  background: #9dff3b center no-repeat url(/images/jcvd.png);
+  right: -100px;
+  background-size: contain;
+}
+
+.character.right .character-img {
+  background: #007eff center no-repeat url(/images/slb.png);
+  left: -100px;
+  background-size: contain;
+}
+
+.character.left .character-img {
   right: -100%;
 }
 
-.character.right img {
+.character.right .character-img {
   left: -100%;
 }
 
-.character.active img {
+.character.active .character-img {
   opacity: 1;
 }
 
-.character.left.active img {
+.character.left.active .character-img {
   opacity: 1;
   right: 0;
 }
 
-.character.right.active img {
+.character.right.active .character-img {
   opacity: 1;
   left: 0;
+}
+
+.character p {
+  margin-top: 30px;
+  font-size: 24px;
+}
+
+.battle {
+  position: absolute;
+  top: 35%;
+  left: 35%;
+  text-align: center;
+  width: 30%;
+  height: 30%;
+  margin: auto;
+  background: center no-repeat url(/images/katana.png);
+  background-size: contain;
 }
 
 .second-row {

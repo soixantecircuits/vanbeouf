@@ -101,7 +101,7 @@ if(currentState === 1) {
   $(form).hide();
   $('.character').addClass('active');
 
-  $('.img-character').each(function(){
+  $('.character-img').each(function(){
     $(this).one('click', function (event){
       $('.character').addClass('picked');
       $('.pick').addClass('animated fadeOutUp');
