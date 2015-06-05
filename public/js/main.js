@@ -230,7 +230,6 @@ function initCanvas(){
   videoElement.loop = true;
   videoElement.style.display = 'none';
   $(videoElement).on('canplaythrough', function(){
-    event.target.disabled = false;
     removeGracefully('.load', 'fadeIn', 'fadeOut');
 
     $(second).removeClass('fadeIn').addClass('fadeOut');
