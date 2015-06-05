@@ -12,7 +12,15 @@ if (gl === null) {
 if(gl == null){
   console.log('no webgl :( ');
   $('.main').hide();
+  $('.title').hide();
   $('.no-webgl').show();
+}
+
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+  console.log('no webgl :( ');
+  $('.main').hide();
+  $('.title').hide();
+  $('.no-mobile').show();
 }
 
 var config = {
