@@ -69,8 +69,12 @@ function initPreload(){
   for(var i = 1; i < config.propsLimit; i++){
       var imgObjJCVD = new Image();
       imgObjJCVD.src = '/props/JCVD/poster' + i + '.png';
+      var imgObjJCVDgif = new Image();
+      imgObjJCVDgif.src = '/props/JCVD/gif' + i + '.png';
       var imgObjSLB = new Image();
       imgObjSLB.src = '/props/shialabeouf/poster' + i + '.png';
+      var imgObjSLBgif = new Image();
+      imgObjSLBgif.src = '/props/shialabeouf/gif' + i + '.png';
   }
 }
 initPreload();
@@ -126,6 +130,11 @@ function generateProps(){
     $(liImg).css('background-size', 'cover');
     $(liImg).css('background-position', 'center');
     $(liImg).css('background-repeat', 'no-repeat');
+    if(character == 'JCVD'){
+      $(liImg).css('background-color', '#01FE1E');
+    } else {
+      $(liImg).css('background-color', '#63AF73');
+    }
     var ratioWidth = window.innerWidth < 768 ? 1 : 2;
     $(liImg).css('width', window.innerWidth / ratioWidth);
     $(liImg).css('height', window.innerHeight / 3);
@@ -139,6 +148,12 @@ function generateProps(){
       $(form).show().addClass('animated fadeIn');
       $(input).focus();
     }
+    $(liImg).on('mouseenter', function(){
+      $(this).css('background-image', 'url(/props/' + character + '/gif' + this.dataset.index + '.gif)');
+    });
+    $(liImg).on('mouseleave', function(){
+      $(this).css('background-image', 'url(/props/' + character + '/poster' + this.dataset.index + '.png)');
+    })
 
     li.appendChild(liImg);
     li.onclick = function(){
@@ -243,9 +258,9 @@ function initCanvas(){
   formatVideo = seriously.transform('reformat');
 
   if(character === 'JCVD'){
-    chroma.screen[0] = 0.07;
-    chroma.screen[1] = 0.42;
-    chroma.screen[2] = 0.13;
+    chroma.screen[0] = 0;
+    chroma.screen[1] = 1;
+    chroma.screen[2] = 0.12;
   } else {
     chroma.screen[0] = 0.21;
     chroma.screen[1] = 0.41;
