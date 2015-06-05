@@ -10,23 +10,13 @@ var progress = require('progress-stream');
 var port = 1337;
 var videoLengthLimit = 15; // in minutes
 
-server.listen(process.env.PORT || port, '127.0.0.1', function() {
+server.listen(process.env.PORT || port, '0.0.0.0', function() {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
   console.log("Press Ctrl+C to quit.");
 });
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/bower_components'));
-
-// Handle 404
-app.use(function(req, res) {
-   res.sendFile(__dirname + '/public/404.html');
-});
-
-// Handle 500
-app.use(function(error, req, res, next) {
-   res.status(500).send('500: Internal Server Error');
-});
 
 var routes = [
   '/',
@@ -46,6 +36,10 @@ routes.forEach(function(route) {
   app.get(route, handler);
 });
 
+// Handle 404
+app.use(function(req, res) {
+   res.sendFile(__dirname + '/public/404.html');
+});
 
 io.on('connection', function(socket) {
   socket.on('send-URL', function(url) {
