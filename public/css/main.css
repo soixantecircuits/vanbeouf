@@ -298,11 +298,15 @@ body {
   margin-bottom: -10px;
 }
 
-.no-webgl{
+.no-webgl {
   display: none;
   font-family: 'Varela Round', sans-serif;
 }
 
+.no-mobile {
+  display: none;
+  font-family: 'Varela Round', sans-serif;
+}
 
 .page-404 {
   margin: 0;
