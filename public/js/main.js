@@ -30,23 +30,6 @@ var character = '' || states[0];
 var currentProp = '' || states[1];
 var currentID = '' || states[2];
 
-// var msg = '', status = Seriously.incompatible();
-// if (status) {
-//   if (status === 'canvas') {
-//     msg = 'Your browser does not support HTML Canvas. Please consider upgrading.';
-//   } else if (status === 'webgl') {
-//     msg = 'Your browser does not support WebGL. Please try Firefox or Chrome.';
-//   } if (status === 'context') {
-//     msg = 'Your graphics hardware does not support WebGL. You may need to upgrade your drivers.';
-//   } else {
-//     msg = 'Unable to display content.'; //unknown error
-//   }
-//   var elem = document.createElement('div');
-//   elem.className = 'incompatible';
-//   elem.textContent = msg;
-//   document.body.appendChild(elem);
-// }
-
 var first = document.querySelector('.first-row');
 var second = document.querySelector('.second-row');
 var third = document.querySelector('.third-row');
@@ -132,7 +115,6 @@ function generateProps(){
     var liImg = document.createElement('div');
     $(liImg).css('background-image', 'url(/props/' + character + '/poster' + index + '.png)');
     $(liImg).css('background-size', 'cover');
-    $(liImg).css('background-position', 'center');
     $(liImg).css('background-repeat', 'no-repeat');
     if(character == 'JCVD'){
       $(liImg).css('background-color', '#01FE1E');
