@@ -90,6 +90,11 @@ if(currentState === 1) {
 } else if(currentState === 2){
   $(first).hide();
   $(third).hide();
+  if(character == 'JCVD'){
+    $(input).css('background-color', '#01FE1E');
+  } else {
+    $(input).css('background-color', '#63AF73');
+  }
   $(second).removeClass('hidden').addClass('fadeIn');
   generateProps();
 } else if(currentState === 3){
@@ -143,7 +148,11 @@ function generateProps(){
       $(event.target).addClass('active');
       currentProp = event.target.dataset.index;
       history.replaceState(currentProp, '', '/' + character + '/' + currentProp);
-
+      if(character == 'JCVD'){
+        $(input).css('background-color', '#01FE1E');
+      } else {
+        $(input).css('background-color', '#63AF73');
+      }
       $(form).show().addClass('animated fadeIn');
       $(input).focus();
     }
