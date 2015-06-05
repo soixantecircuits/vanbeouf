@@ -19,11 +19,13 @@
   <meta name="twitter:image" content="http://vanbeoufize.me/images/home.png">
 
   <!-- Open Graph data -->
+  <meta property="fb:app_id" content="469906346520500" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content="Vanbeouf" />
   <meta property="og:title" content="Vanboeuf - A motivational experience delivered to the Internets"/>
   <meta property="og:description" content="A motivational experience delivered to the Internets"/>
   <meta property="og:image" content="http://vanbeoufize.me/images/home.png"/>
-  <meta property="og:type" content="Application" />
+  <meta property="og:type" content="website" />
 
   <!-- Schema.org markup for Google+ -->
   <meta itemprop="name" content="Vanboeuf - A motivational experience delivered to the Internets">
@@ -42,6 +44,23 @@
   <!--[if lt IE 10]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '469906346520500',
+      xfbml      : true,
+      version    : 'v2.3'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
   <h1 data-evt="true" data-category="navigation" data-action="home" class="title"><a href="/" title="vanboeuf"></a></h1>
   <div class="main">
     <div class="row hidden animated first-row">
