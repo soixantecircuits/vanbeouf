@@ -14,7 +14,7 @@ if (!supportWEBGL()) {
   $('.no-webgl').show();
 }
 
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
   console.log('no webgl :( ');
   $('.main').hide();
   $('.title').hide();
@@ -290,8 +290,14 @@ function initCanvas() {
   document.querySelector('.soc-twitter').href = "http://twitter.com/home?status=I’ve just vanbeoufed this video " + location.href + ". Check it out and do your own #Vanbeouf too. Just do it ! cc @soixanteci ";
 }
 
-$(window).on('popstate', function() {
+function onpopstate() {
   location.reload();
+}
+
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    window.addEventListener('popstate', onpopstate, false);
+  }, 0);
 });
 
 $(document).on('click', '[data-evt="true"]', function() {
