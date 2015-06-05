@@ -2,7 +2,7 @@
 $(function() {
     // link selector and pop-up window size
     var Config = {
-        Link: ".soc > li > a:not(.soc-email2)",
+        Link: ".soc > li > a.soc-twitter",
         Width: 500,
         Height: 500
     };
