@@ -286,12 +286,7 @@ function initCanvas() {
   });
 
   document.querySelector('.soc-email2').href = "mailto:?subject=VanBeouf&body= Here's my Vanbeouf video " + location.href + ". Do your Vanbeouf too " + location.origin + " ! Just do it ! #Vanbeouf";
-  document.querySelector('.soc-facebook').href = "https://www.facebook.com/dialog/share_open_graph?
-  app_id=469906346520500
-  &display=popup
-  &action_type=og.likes
-  &action_properties="+ location.href +
-  "&redirect_uri=" + location.href;
+  document.querySelector('.soc-facebook').href = "https://www.facebook.com/dialog/share_open_graph?app_id=469906346520500&display=popup&action_type=og.likes&action_properties="+ location.href +"&redirect_uri=" + location.href;
   document.querySelector('.soc-twitter').href = "http://twitter.com/intent/tweet?url=" + location.href + "&text=I've just vanbeoufed this video! Check it out. Just do it ! cc @soixanteci&hashtags=vanbeouf";
 }
 
